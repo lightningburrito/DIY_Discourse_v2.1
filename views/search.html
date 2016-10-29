@@ -1,46 +1,58 @@
 
 <div>
-	<div class="searchInputs">
-        <h4 class="title">Specialized Data</h4><br />
-        <label for="subreddit">Subreddit</label>
-        <input type="text" id="subreddit" name="subreddit" />
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author" />
-        <label for="comment_id">Comment ID</label>
-        <input type="text" id="comment_id" name="comment_id" />
-        <br />
-        <label for="subreddit_id">Subreddit ID</label>
-        <input type="text" id="subreddit_id" name="subreddit_id"/>
-        <label for="parent_id">Parent ID</label>
-        <input type="text" id="parent_id" name="parent_id"/>
-        <label for="link_id">Link ID</label>
-        <input type="text" id="link_id" name="link_id"/>
-        <br />
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" />
-        <label for="author_flair_text">Author Flair Text</label>
-        <input type="text" id="author_flair_text"/>
-        <label for="author_flair_class">Author Flair Class</label>
-        <input type="text" id="author_flair_class" name="author_flair_class"/>
-        <br />
-    </div>
-    <div>
-        <h4 class="title">Numerical Data</h4><br />
-        <label for="retrieved_on">Retrieved On</label>
-        <input type="text" id="retrieved_on" name="retrieved_on"/>
-        <label for="created_utc">Created UTC</label>
-        <input type="text" id="created_utc" name="created_utc"/>
-        <br />
-        <label for="up_votes">Up-Votes</label>
-        <input type="text" id="up_votes" name="up_votes"/>
-        <label for="down_votes">Down-Votes</label>
-        <input type="text" id="down_votes" name="down_votes" />
-        <label for="score">Score</label>
-        <input type="text" id="score" name="score"/>
-        <br />
-        <label for="gilded">Gilded</label>
-        <input type="text" id="gilded" name="gilded"/>
-        <label for="controvers">Controversiality</label>
-        <input type="text" id="controvers" name="controvers"/>
-    </div>
+	<button>Edit Main Data</button>
+	<button>Edit Specialized Data</button>
+	<button>Edit Numerical Data</button>
+	<div dialog title="Main Data" open="editMainData" cancel-button="Close" width="1000" height="700" validate="false">
+
+
+	</div>
+	<div dialog title="Specialized Data" open="" cancel-button="Close" width="1000" height="700" validate="false">
+		<div class="searchInputs">
+			<h4 class="title">Specialized Data</h4><br />
+			<label for="subreddit">Subreddit</label>
+			<input type="text" id="subreddit" name="subreddit" />
+			<label for="author">Author</label>
+			<input type="text" id="author" name="author" />
+			<label for="comment_id">Comment ID</label>
+			<input type="text" id="comment_id" name="comment_id" />
+			<br />
+			<label for="subreddit_id">Subreddit ID</label>
+			<input type="text" id="subreddit_id" name="subreddit_id"/>
+			<label for="parent_id">Parent ID</label>
+			<input type="text" id="parent_id" name="parent_id"/>
+			<label for="link_id">Link ID</label>
+			<input type="text" id="link_id" name="link_id"/>
+			<br />
+			<label for="name">Name</label>
+			<input type="text" id="name" name="name" />
+			<label for="author_flair_text">Author Flair Text</label>
+			<input type="text" id="author_flair_text"/>
+			<label for="author_flair_class">Author Flair Class</label>
+			<input type="text" id="author_flair_class" name="author_flair_class"/>
+			<br />
+		</div>
+	</div>
+	<div dialog title="Numerical Data" open="" cancel-button="Close" width="1000" height="700" validate="false">
+		<div>
+			<h4 class="title">Numerical Data</h4><br />
+			<label for="retrieved_on">Retrieved On</label>
+			<input type="text" id="retrieved_on" name="retrieved_on"/>
+			<label for="created_utc">Created UTC</label>
+			<input type="text" id="created_utc" name="created_utc"/>
+			<br />
+			<label for="up_votes">Up-Votes</label>
+			<input type="text" id="up_votes" name="up_votes"/>
+			<label for="down_votes">Down-Votes</label>
+			<input type="text" id="down_votes" name="down_votes" />
+			<label for="score">Score</label>
+			<input type="text" id="score" name="score"/>
+			<br />
+			<label for="gilded">Gilded</label>
+			<input type="text" id="gilded" name="gilded"/>
+			<label for="controvers">Controversiality</label>
+			<input type="text" id="controvers" name="controvers"/>
+		</div>
+	</div>
+
 </div>
