@@ -4,6 +4,18 @@
 
 var app = angular.module("discourse",["ngRoute"]);
 
+$.widget("ui.dialog", $.ui.dialog,
+	{
+		_allowInteraction: function(event)
+		{
+			return !!$(event.target).closest(".cke_dialog").length
+				|| this._super(event);
+		}
+	});
+
+// Don't automatically focus the first tabbable element when opening a dialog
+$.ui.dialog.prototype._focusTabbable = $.noop;
+
 app.config(function($routeProvider) {
 	$routeProvider
 		.when("/", {

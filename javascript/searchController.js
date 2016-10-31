@@ -4,6 +4,11 @@
 
 var app = angular.module("discourse");
 
-app.controller("searchController", ["dialog", function ($scope) {
+app.controller("searchController", ["$scope", SearchController]);
 
-}]);
+function SearchController($scope)
+{
+	$scope.openSpecialized = true;
+	$scope.openNumerical = false;
+
+}
