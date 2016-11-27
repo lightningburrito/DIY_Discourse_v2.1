@@ -2,7 +2,7 @@
  * Created by D-Beatz on 10/1/16.
  */
 
-var app = angular.module("discourse",["ngRoute"]);
+var app = angular.module("discourse", ["ngRoute"]);
 
 $.widget("ui.dialog", $.ui.dialog,
 	{
@@ -18,11 +18,7 @@ $.ui.dialog.prototype._focusTabbable = $.noop;
 
 app.config(function($routeProvider) {
 	$routeProvider
-		.when("/", {
-			templateUrl : "views/home.html",
-			controller : "homeController"
-		})
-		.when("/search",{
+		.when("/",{
 			templateUrl : "views/search.html",
 			controller : "searchController"
 		})

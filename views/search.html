@@ -1,10 +1,10 @@
 
 <div>
-	<button>Edit Main Data</button>
-	<button>Edit Specialized Data</button>
-	<button>Edit Numerical Data</button>
+	<button ng-click="editMain()">Edit Main Data</button>
+	<button ng-click="editSpecialized()">Edit Specialized Data</button>
+	<button ng-click="editNumerical()">Edit Numerical Data</button>
 	<div dialog title="Main Data" open="editMainData" cancel-button="Close" width="1000" height="700" validate="false">
-
+a
 	</div>
 	<div dialog title="Specialized Data" open="openSpecialized" cancel-button="Close" width="1000" height="700" validate="false">
 		<div class="searchInputs">
@@ -53,5 +53,6 @@
 			<input type="text" id="controvers" name="controvers"/>
 		</div>
 	</div>
-
+	<!--ui-grid shtuff-->
+	<div ui-grid="gridOptions" class="myGrid"></div>
 </div>

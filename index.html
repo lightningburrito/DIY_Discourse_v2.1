@@ -5,10 +5,10 @@
     <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script type="application/javascript" src="javascript/angular.min.js"></script>
-	<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-	<script type="application/javascript" src="javascript/main_script.js"></script>
+	<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+	<script type="application/javascript" src="ui-grid-3.2.9/ui-grid.min.js"></script>
+	<script type="application/javascript" src="javascript/mainScript.js"></script>
 	<script type="application/javascript" src="javascript/dialog.js"></script>
-	<script type="application/javascript" src="javascript/homeController.js"></script>
 	<script type="application/javascript" src="javascript/searchController.js"></script>
 	<script type="application/javascript" src="javascript/aboutController.js"></script>
 
@@ -18,25 +18,25 @@
 
 	<!--Other styles-->
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+	<link rel="styleSheet" href="ui-grid-3.2.9/ui-grid.min.css"/>
 	<link rel="stylesheet" href="css/main.css" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>The Commentator</title>
 </head>
-<body ng-app="discourse" ng-controller="homeController">
+<body ng-app="discourse">
 	<div class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a disabled="disabled" class="navbar-brand">The Commentator</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="#/">Home</a></li>
-				<li><a href="#search">Search</a></li>
+				<li><a href="#/">Search</a></li>
 				<li><a href="#about">About</a></li>
 			</ul>
 		</div>
 	</div>
 
-	<div ng-view class="mainWindow"></div>
+	<div ng-view></div>
 </body>
 </html>
