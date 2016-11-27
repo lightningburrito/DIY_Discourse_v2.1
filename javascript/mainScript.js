@@ -4,6 +4,18 @@
 
 var app = angular.module("discourse", ["ngRoute"]);
 
+app.config(function($routeProvider) {
+	$routeProvider
+		.when("/",{
+			templateUrl : "../views/search.html",
+			controller : "searchController"
+		})
+		.when("/about", {
+			templateUrl : "../views/about.html",
+			controller : "aboutController"
+		});
+});
+
 $.widget("ui.dialog", $.ui.dialog,
 	{
 		_allowInteraction: function(event)
@@ -15,15 +27,3 @@ $.widget("ui.dialog", $.ui.dialog,
 
 // Don't automatically focus the first tabbable element when opening a dialog
 $.ui.dialog.prototype._focusTabbable = $.noop;
-
-app.config(function($routeProvider) {
-	$routeProvider
-		.when("/",{
-			templateUrl : "views/search.html",
-			controller : "searchController"
-		})
-		.when("/about", {
-			templateUrl : "views/about.html",
-			controller : "aboutController"
-		});
-});

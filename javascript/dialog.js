@@ -1,5 +1,5 @@
 
-var app = angular.module("discourse");
+var app = angular.module("discourse", ["ngRoute"]);
 app.directive("dialog", dialog);
 
 function dialog($timeout)
