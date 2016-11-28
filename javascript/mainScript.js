@@ -1,36 +1,74 @@
 /**
  * Created by D-Beatz on 10/1/16.
  */
+$.widget("ui.dialog", $.ui.dialog,
+    {
+        _allowInteraction: function(event)
+        {
+            return !!$(event.target).closest(".cke_dialog").length
+                || this._super(event);
+        }
+    });
 
-var app = angular.module("discourse", ["ngRoute"]);
+// Don't automatically focus the first tabbable element when opening a dialog
+$.ui.dialog.prototype._focusTabbable = $.noop;
 
-app.config(function($routeProvide, $locationProvider) {
+
+var app = angular.module("discourse", ["ui.grid", "ui.grid.edit"]);
+
+app.controller("searchController", ["$scope", SearchController]);
+
+/*app.config(function($routeProvide, $locationProvider) {
 	$routeProvider
 		.when("/",{
 			templateUrl : "views/home.html"
 		})
         .when("/search",{
             templateUrl : "views/search.html",
-            controller : "searchController"
+            controller : "SearchController"
         })
 		.when("/about", {
 			templateUrl : "views/about.html",
-			controller : "aboutController"
-		});
+			controller : "AboutController"
+		})
+        .otherwise({redirectTo: '/'});
+
     $locationProvider.html5Mode({
         enabled: true,
-        requireBase: true
+        requireBase: false
     });
-});
+});*/
 
-$.widget("ui.dialog", $.ui.dialog,
-	{
-		_allowInteraction: function(event)
-		{
-			return !!$(event.target).closest(".cke_dialog").length
-				|| this._super(event);
-		}
-	});
+function SearchController($scope)
+{
+    $scope.openMain = false;
+    $scope.openSpecialized = false;
+    $scope.openNumerical = false;
 
-// Don't automatically focus the first tabbable element when opening a dialog
-$.ui.dialog.prototype._focusTabbable = $.noop;
+    $scope.editMain = function()
+    {
+        $scope.openMain = true;
+    };
+    $scope.editSpecialized = function ()
+    {
+        $scope.openSpecialized = true;
+    };
+    $scope.editNumerical = function ()
+    {
+        $scope.openNumerical = true;
+    };
+    $scope.gridOptions =
+    {
+        columnDefs: [
+            {
+                name: "id"
+            }
+        ],
+        data: [
+            {
+                "id": "42"
+            }
+        ]
+    }
+
+}

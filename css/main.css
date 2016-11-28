@@ -18,8 +18,19 @@
 {
 
 }
+.buttonContainer
+{
+    width: 95%;
+    margin: auto;
+}
+.myGrid
+{
+    width: 95%;
+    height: 700px!important;
+    margin: auto;
+}
 
-.myGrid {
-    width: 500px;
-    height: 250px;
+footer
+{
+
 }
