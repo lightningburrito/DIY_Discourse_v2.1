@@ -4,16 +4,23 @@
 
 var app = angular.module("discourse", ["ngRoute"]);
 
-app.config(function($routeProvider) {
+app.config(function($routeProvide, $locationProvider) {
 	$routeProvider
 		.when("/",{
-			templateUrl : "../views/search.html",
-			controller : "searchController"
+			templateUrl : "views/home.html"
 		})
+        .when("/search",{
+            templateUrl : "views/search.html",
+            controller : "searchController"
+        })
 		.when("/about", {
-			templateUrl : "../views/about.html",
+			templateUrl : "views/about.html",
 			controller : "aboutController"
 		});
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: true
+    });
 });
 
 $.widget("ui.dialog", $.ui.dialog,
