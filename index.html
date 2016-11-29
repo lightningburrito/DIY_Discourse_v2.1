@@ -39,61 +39,101 @@
     <!--pro hax-->
 	<!--<div ng-view></div>-->
     <div class="buttonContainer">
-        <button ng-click="editMain()">Edit Main Data</button>
-        <button ng-click="editSpecialized()">Edit Specialized Data</button>
-        <button ng-click="editNumerical()">Edit Numerical Data</button>
+        <!--<button class="btn-primary" ng-click="editMain()">Edit Main Data</button>-->
+        <button class="btn-primary" ng-click="editSpecialized()">Edit Specialized Data</button>
+        <button class="btn-primary" ng-click="editNumerical()">Edit Numerical Data</button>
+        <br />
+        <br />
+        <button class="btn-success">Search</button>
     </div>
+
     <br />
     <!--ui-grid shtuff-->
     <div ui-grid="gridOptions" class="myGrid"></div>
     <div dialog title="Main Data" open="openMain" cancel-button="Close" width="1000" height="700" validate="false">
         <h4>things</h4>
     </div>
-    <div dialog title="Specialized Data" open="openSpecialized" cancel-button="Close" width="1000" height="700" validate="false">
+    <div dialog title="Input" open="openSpecialized" cancel-button="Close" width="1000" height="350" validate="false">
+        <h4 class="title">Specialized Data</h4><br />
         <div class="searchInputs">
-            <h4 class="title">Specialized Data</h4><br />
-            <label for="subreddit">Subreddit</label>
-            <input type="text" id="subreddit" name="subreddit" />
-            <label for="author">Author</label>
-            <input type="text" id="author" name="author" />
-            <label for="comment_id">Comment ID</label>
-            <input type="text" id="comment_id" name="comment_id" />
-            <br />
-            <label for="subreddit_id">Subreddit ID</label>
-            <input type="text" id="subreddit_id" name="subreddit_id"/>
-            <label for="parent_id">Parent ID</label>
-            <input type="text" id="parent_id" name="parent_id"/>
-            <label for="link_id">Link ID</label>
-            <input type="text" id="link_id" name="link_id"/>
-            <br />
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" />
-            <label for="author_flair_text">Author Flair Text</label>
-            <input type="text" id="author_flair_text"/>
-            <label for="author_flair_class">Author Flair Class</label>
-            <input type="text" id="author_flair_class" name="author_flair_class"/>
-            <br />
+            <div class="input-group">
+                <span class="input-group-addon">Subreddit</span>
+                <!--<input id="msg" type="text" class="form-control" name="msg" placeholder="Additional Info">-->
+                <input type="text" id="subreddit" class="form-control" name="subreddit" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Author</span>
+                <input type="text" id="author" class="form-control" name="author" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Comment ID</span>
+                <input type="text" id="comment_id" class="form-control" name="comment_id" />
+            </div>
+        </div>
+        <div class="searchInputs">
+            <div class="input-group">
+                <span class="input-group-addon">Subreddit ID</span>
+                <input type="text" id="subreddit_id" class="form-control" name="subreddit_id"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Parent ID</span>
+                <input type="text" id="parent_id" class="form-control" name="parent_id"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Link ID</span>
+                <input type="text" id="link_id" class="form-control" name="link_id"/>
+            </div>
+        </div>
+        <div class="searchInputs">
+            <div class="input-group">
+                <span class="input-group-addon">Name</span>
+                <input type="text" id="name" class="form-control" name="name" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Author Flair Text</span>
+                <input type="text" id="author_flair_text" class="form-control" name="author_flair_text"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Author Flair Class</span>
+                <input type="text" id="author_flair_class" class="form-control" name="author_flair_class"/>
+            </div>
         </div>
     </div>
-    <div dialog title="Numerical Data" open="openNumerical" cancel-button="Close" width="1000" height="700" validate="false">
-        <div>
-            <h4 class="title">Numerical Data</h4><br />
-            <label for="retrieved_on">Retrieved On</label>
-            <input type="text" id="retrieved_on" name="retrieved_on"/>
-            <label for="created_utc">Created UTC</label>
-            <input type="text" id="created_utc" name="created_utc"/>
-            <br />
-            <label for="up_votes">Up-Votes</label>
-            <input type="text" id="up_votes" name="up_votes"/>
-            <label for="down_votes">Down-Votes</label>
-            <input type="text" id="down_votes" name="down_votes" />
-            <label for="score">Score</label>
-            <input type="text" id="score" name="score"/>
-            <br />
-            <label for="gilded">Gilded</label>
-            <input type="text" id="gilded" name="gilded"/>
-            <label for="controvers">Controversiality</label>
-            <input type="text" id="controvers" name="controvers"/>
+    <div dialog title="Numerical Data" open="openNumerical" cancel-button="Close" width="1000" height="350" validate="false">
+        <h4 class="title">Numerical Data</h4><br />
+        <div class="searchInputs">
+            <div class="input-group">
+                <span class="input-group-addon">Retrieved On</span>
+                <input type="text" id="retrieved_on" class="form-control" name="retrieved_on"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Created UTC</span>
+                <input type="text" id="created_utc" class="form-control" name="created_utc"/>
+            </div>
+        </div>
+        <div class="searchInputs">
+            <div class="input-group">
+                <span class="input-group-addon">Up-Votes</span>
+                <input type="text" id="up_votes" class="form-control" name="up_votes"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Down-Votes</span>
+                <input type="text" id="down_votes" class="form-control" name="down_votes" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Score</span>
+                <input type="text" id="score" class="form-control" name="score"/>
+            </div>
+        </div>
+        <div class="searchInputs">
+            <div class="input-group">
+                <span class="input-group-addon">Gilded</span>
+                <input type="text" id="gilded" class="form-control" name="gilded"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Controversiality</span>
+                <input type="text" id="controvers" class="form-control" name="controvers"/>
+            </div>
         </div>
     </div>
     <footer></footer>

@@ -1,23 +1,28 @@
-.searchInputs, .results
-{
-    width: 50%;
-    display: inline;
-    align-content: center;
-}
-
 .searchInputs
 {
+
+    display: inline-block;
+    width: 32%;
+}
+.input-group
+{
+    padding: 5px;
 
 }
 .title
 {
     text-align: center;
-    width: 40%;
 }
 .mainWindow
 {
 
 }
+
+button
+{
+    border-radius: 10px;
+}
+
 .buttonContainer
 {
     width: 95%;

@@ -18,27 +18,6 @@ var app = angular.module("discourse", ["ui.grid", "ui.grid.edit"]);
 
 app.controller("searchController", ["$scope", SearchController]);
 
-/*app.config(function($routeProvide, $locationProvider) {
-	$routeProvider
-		.when("/",{
-			templateUrl : "views/home.html"
-		})
-        .when("/search",{
-            templateUrl : "views/search.html",
-            controller : "SearchController"
-        })
-		.when("/about", {
-			templateUrl : "views/about.html",
-			controller : "AboutController"
-		})
-        .otherwise({redirectTo: '/'});
-
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-    });
-});*/
-
 function SearchController($scope)
 {
     $scope.openMain = false;
@@ -61,12 +40,38 @@ function SearchController($scope)
     {
         columnDefs: [
             {
+                displayName: "ID",
                 name: "id"
+            },
+            {
+                displayName: "Author",
+                name: "author"
+            },
+            {
+                displayName: "Ups",
+                name: "ups"
+            },
+            {
+                displayName: "Downs",
+                name: "downs"
+            },
+            {
+                displayName: "Score",
+                name: "score"
+            },
+            {
+                displayName: "Body",
+                name: "body"
             }
         ],
         data: [
             {
-                "id": "42"
+                "id": "42",
+                "author": "Butters",
+                "ups" : "561",
+                "downs": "11",
+                "score" : "550",
+                "body" : "This comment is really intellijent"
             }
         ]
     }
