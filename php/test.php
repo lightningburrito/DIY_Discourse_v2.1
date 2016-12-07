@@ -1,10 +1,21 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: austin
- * Date: 12/6/2016
- * Time: 5:02 PM
- */
+
+//require 'database_connections.php';
+
+/*function main()
+{
+	$conn = connect();
+	if(!$conn) {
+		echo "connection failed";
+		return 0;
+	}
+	$stmt = $conn->prepare("SELECT * FROM cinfo WHERE id LIKE '1'");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	disconnect($conn);
+	echo json_encode($result);
+}
+main();*/
 	$data = new stdClass();
 	$data->id = "42";
 	$data->author = "Butters";
@@ -16,6 +27,7 @@
 	$array[] = $data;
 	echo json_encode($array);
 	return 0;
+/*
     //$conn = new mysqli("localhost", "root", "password");
     if (mysqli_connect_errno())
     {
@@ -31,7 +43,6 @@
     {
       while ($row = $result->fetch_assoc())
       {
-          /*
           echo "gilded: " . $row["gilded"]. "<br>";
           echo "author flair text: " . $row["author_flair_text"]. "<br>";
           echo "author flair css class: " . $row["author_flair_css_class"]. "<br>";
@@ -58,9 +69,9 @@
           echo "lwordcount: " . $row["lwordcount"]. "<br>";
           echo "sentcount: " . $row["sentcount"]. "<br>";
           echo "lix: " . $row["lix"]. "<br>";
-          */
 
-          echo json_encode($row);
+
+         echo json_encode($row);
       }
     
     }
@@ -71,4 +82,4 @@
     }
     
     
-    $conn->close();
+    $conn->close();*/
