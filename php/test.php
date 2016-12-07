@@ -5,8 +5,18 @@
  * Date: 12/6/2016
  * Time: 5:02 PM
  */
-
-    $conn = new mysqli("localhost", "root", "password");
+	$data = new stdClass();
+	$data->id = "42";
+	$data->author = "Butters";
+	$data->ups = "561";
+	$data->downs = "11";
+	$data->score = "550";
+	$data->body = "This comment is really intellijent";
+	$array = [];
+	$array[] = $data;
+	echo json_encode($array);
+	return 0;
+    //$conn = new mysqli("localhost", "root", "password");
     if (mysqli_connect_errno())
     {
         printf("Connect failed: %s\n", mysqli_connect_error());

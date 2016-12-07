@@ -16,9 +16,9 @@ $.ui.dialog.prototype._focusTabbable = $.noop;
 
 var app = angular.module("discourse", ["ui.grid", "ui.grid.edit"]);
 
-app.controller("searchController", ["$scope", SearchController]);
+app.controller("searchController", ["$scope", "$http", SearchController]);
 
-function SearchController($scope)
+function SearchController($scope, $http)
 {
     $scope.openMain = false;
     $scope.openSpecialized = false;
@@ -36,6 +36,22 @@ function SearchController($scope)
     {
         $scope.openNumerical = true;
     };
+
+    $scope.search = function()
+    {
+        $http({
+            method: 'POST',
+            url: 'http://134.129.210.126/diy_dfeist/php/test.php',
+            data: "test",
+            headers: {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            console.log(response);
+            $scope.gridOptions.data = response.data;
+        }, function (response) {
+            console.log(response);
+        });
+    };
+
     $scope.gridOptions =
     {
         columnDefs: [
@@ -65,14 +81,7 @@ function SearchController($scope)
             }
         ],
         data: [
-            {
-                "id": "42",
-                "author": "Butters",
-                "ups" : "561",
-                "downs": "11",
-                "score" : "550",
-                "body" : "This comment is really intellijent"
-            }
+
         ]
     }
 
