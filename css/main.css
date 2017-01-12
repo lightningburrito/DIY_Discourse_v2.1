@@ -1,38 +1,21 @@
-.searchInputs
-{
 
-    display: inline-block;
-    width: 32%;
-}
-.input-group
-{
-    padding: 5px;
 
-}
-.title
-{
-    text-align: center;
-}
-.mainWindow
-{
-
-}
-
-button
-{
-    border-radius: 10px;
-}
-
-.buttonContainer
-{
-    width: 95%;
-    margin: auto;
-}
 .myGrid
 {
     width: 95%;
     height: 700px!important;
     margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+md-card
+{
+    width: 90%;
+    margin: auto;
+    height: 90%;
+    max-height: 90%;
+    min-height: 90%;
 }
 
 footer
