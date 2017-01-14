@@ -1,0 +1,111 @@
+<md-dialog class="md-default-theme input-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Parameters</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+
+
+
+    <md-dialog-content class="input-holder">
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Main">
+                <md-content class="md-padding">
+
+                </md-content>
+            </md-tab>
+            <md-tab label="Numerical">
+                <md-content class="md-padding">
+                    <div class="searchInputs">
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Retrieved On</label>
+                            <input type="text" name="retrieved_on" ng-model="numerical_data.retrieved_on" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Created UTC</label>
+                            <input type="text" name="created_utc" ng-model="numerical_data.created_utc" />
+                        </md-input-container>
+                    </div>
+                    <div class="searchInputs">
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Up-Votes</label>
+                            <input type="text" name="up_votes" ng-model="numerical_data.up_votes" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Down-Votes</label>
+                            <input type="text" name="down_votes" ng-model="numerical_data.down_votes" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Score</label>
+                            <input type="text" name="score" ng-model="numerical_data.score" />
+                        </md-input-container>
+                    </div>
+                    <div class="searchInputs">
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Gilded</label>
+                            <input type="text" name="gilded" ng-model="numerical_data.gilded" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Controversiality</label>
+                            <input type="text" name="controversiality" ng-model="numerical_data.controversiality" />
+                        </md-input-container>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Specialized">
+                <md-content class="md-padding">
+                    <div class="searchInputs">
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Subreddit</label>
+                            <input type="text" name="subreddit" ng-model="special_data.subreddit" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Author</label>
+                            <input type="text" name="author" ng-model="special_data.author" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Comment ID</label>
+                            <input type="text" name="comment_id" ng-model="special_data.comment_id" />
+                        </md-input-container>
+                    </div>
+                    <div class="searchInputs">
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Subreddit ID</label>
+                            <input type="text" name="subreddit_id" ng-model="special_data.subreddit_id" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Parent ID</label>
+                            <input type="text" name="parent_id" ng-model="special_data.parent_id" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Link ID</label>
+                            <input type="text" name="link_id" ng-model="special_data.link_id" />
+                        </md-input-container>
+                    </div>
+                    <div class="searchInputs">
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Name</label>
+                            <input type="text" name="name" ng-model="special_data.name" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Author Flair Text</label>
+                            <input type="text" name="author_flair_text" ng-model="special_data.author_flair_text" />
+                        </md-input-container>
+                        <md-input-container class="md-inline text-input-container">
+                            <label>Author Flair Class</label>
+                            <input type="text" name="author_flair_class" ng-model="special_data.author_flair_class" />
+                        </md-input-container>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+
+        <md-button ng-click="cancel()">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

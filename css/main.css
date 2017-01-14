@@ -1,14 +1,31 @@
 
-
+.param-button
+{
+    width: 170px;
+    margin-left: 2.5%;
+}
 .myGrid
 {
     width: 95%;
-    height: 700px!important;
+    height: 600px!important;
     margin: auto;
     margin-top: 2%;
     margin-bottom: 2%;
 }
-
+.text-input-container
+{
+    /*margin: 0px;*/
+    width: 32%;
+}
+.input-dialog
+{
+    width: 1000px;
+    height: 600px;
+}
+.input-holder
+{
+    height: 480px;
+}
 md-card
 {
     width: 90%;

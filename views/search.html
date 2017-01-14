@@ -1,5 +1,13 @@
 
 <!--ui-grid shtuff-->
 <md-card>
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Search all Things</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-button class="md-raised param-button" ng-click="openParametersDialog($event)">Search Parameters</md-button>
+    <br />
+    <md-button class="md-raised param-button md-primary" ng-click="search()">Search</md-button>
     <div ui-grid="gridOptions" class="myGrid"></div>
 </md-card>

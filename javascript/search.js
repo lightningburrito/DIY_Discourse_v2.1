@@ -1,32 +1,22 @@
 
 var app = angular.module("discourse");
 
-app.controller("SearchController", ["$scope", "$http", SearchController]);
+app.controller("SearchController", ["$scope", "$mdDialog", "$http", SearchController]);
 
-function SearchController($scope, $http)
+function SearchController($scope, $mdDialog, $http)
 {
-    $scope.openMain = false;
-    $scope.openSpecialized = false;
-    $scope.openNumerical = false;
+    $scope.searchParams = {
+        main_data: {},
+        numerical_data: {},
+        special_data: {}
+    };
 
-    $scope.editMain = function()
-    {
-        $scope.openMain = true;
-    };
-    $scope.editSpecialized = function ()
-    {
-        $scope.openSpecialized = true;
-    };
-    $scope.editNumerical = function ()
-    {
-        $scope.openNumerical = true;
-    };
 
     $scope.search = function()
     {
         $http({
             method: 'POST',
-            url: 'http://134.129.210.126/diy_dfeist/php/test.php',
+            url: '/diy_dfeist/php/test.php',
             data: "test",
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
@@ -68,6 +58,33 @@ function SearchController($scope, $http)
             data: [
 
             ]
-        }
+        };
 
+    function ParametersDialogCtl($scope, params, $mdDialog, $mdToast) {
+        function Init()
+        {
+            $scope.params = params;
+            console.log(params);
+        }
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        Init();
+    }
+    $scope.openParametersDialog = function(ev)
+    {
+        $mdDialog.show({
+            controller: ParametersDialogCtl,
+            locals: {params: $scope.searchParams},
+            templateUrl: 'views/dialogs/input_dialog.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        })
+    };
 }
