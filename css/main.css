@@ -17,6 +17,10 @@
     /*margin: 0px;*/
     width: 32%;
 }
+.radioGroup
+{
+    margin: auto;
+}
 .input-dialog
 {
     width: 1000px;

@@ -6,9 +6,46 @@ app.controller("SearchController", ["$scope", "$mdDialog", "$http", SearchContro
 function SearchController($scope, $mdDialog, $http)
 {
     $scope.searchParams = {
-        main_data: {},
-        numerical_data: {},
-        special_data: {}
+        main_data: {
+            string_params: [
+                {
+                    pre_string: "",
+                    string: "",
+                    type: ""
+                }
+            ],
+            num_params: [
+                {
+                    operator: "",
+                    number: null,
+                    type: ""
+                }
+            ],
+            edited: "",
+            archived: "",
+            distinguished: "",
+            score_hidden: ""
+        },
+        numerical_data: {
+            retrieved_on: "",
+            created_utc: "",
+            up_votes: "",
+            down_votes: "",
+            score: "",
+            gilded: "",
+            controversiality: ""
+        },
+        special_data: {
+            subreddit: "",
+            author: "",
+            comment_id: "",
+            subreddit_id: "",
+            parent_id: "",
+            link_id: "",
+            name: "",
+            author_flair_text: "",
+            author_flair_class: ""
+        }
     };
 
 
@@ -60,11 +97,11 @@ function SearchController($scope, $mdDialog, $http)
             ]
         };
 
-    function ParametersDialogCtl($scope, params, $mdDialog, $mdToast) {
+    function ParametersDialogCtl($scope, p, $mdDialog, $mdToast) {
         function Init()
         {
-            $scope.params = params;
-            console.log(params);
+            $scope.params = p;
+            console.log($scope.params);
         }
         $scope.hide = function() {
             $mdDialog.hide();
@@ -80,7 +117,7 @@ function SearchController($scope, $mdDialog, $http)
     {
         $mdDialog.show({
             controller: ParametersDialogCtl,
-            locals: {params: $scope.searchParams},
+            locals: {p: $scope.searchParams},
             templateUrl: 'views/dialogs/input_dialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,

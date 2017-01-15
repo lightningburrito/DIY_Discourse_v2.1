@@ -6,49 +6,76 @@
         </div>
     </md-toolbar>
 
-
-
     <md-dialog-content class="input-holder">
         <md-tabs md-dynamic-height md-border-bottom>
             <md-tab label="Main">
-                <md-content class="md-padding">
-
+                <md-content class="md-padding" layout="row">
+                    <div class="radioGroup">
+                        <p>Edited:</p>
+                        <md-radio-group name="edited" ng-model="params.main_data.edited" layout="row">
+                            <md-radio-button value="yes">Yes</md-radio-button>
+                            <md-radio-button value="no">No</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div class="radioGroup">
+                        <p>Archived:</p>
+                        <md-radio-group name="edited" ng-model="params.main_data.archived" layout="row">
+                            <md-radio-button value="yes">Yes</md-radio-button>
+                            <md-radio-button value="no">No</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div class="radioGroup">
+                        <p>Distinguished:</p>
+                        <md-radio-group name="edited" ng-model="params.main_data.distinguished" layout="row">
+                            <md-radio-button value="yes">Yes</md-radio-button>
+                            <md-radio-button value="no">No</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div class="radioGroup">
+                        <p>Score Hidden:</p>
+                        <md-radio-group name="edited" ng-model="params.main_data.score_hidden" layout="row">
+                            <md-radio-button value="yes">Yes</md-radio-button>
+                            <md-radio-button value="no">No</md-radio-button>
+                        </md-radio-group>
+                    </div>
                 </md-content>
+
+                <!--magic goes here-->
             </md-tab>
             <md-tab label="Numerical">
                 <md-content class="md-padding">
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Retrieved On</label>
-                            <input type="text" name="retrieved_on" ng-model="numerical_data.retrieved_on" />
+                            <input type="text" name="retrieved_on" ng-model="params.numerical_data.retrieved_on" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Created UTC</label>
-                            <input type="text" name="created_utc" ng-model="numerical_data.created_utc" />
+                            <input type="text" name="created_utc" ng-model="params.numerical_data.created_utc" />
                         </md-input-container>
                     </div>
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Up-Votes</label>
-                            <input type="text" name="up_votes" ng-model="numerical_data.up_votes" />
+                            <input name="up_votes" ng-model="params.numerical_data.up_votes" ng-pattern="/^1234$/"/>
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Down-Votes</label>
-                            <input type="text" name="down_votes" ng-model="numerical_data.down_votes" />
+                            <input name="down_votes" ng-model="params.numerical_data.down_votes" ng-pattern="/^1234$/" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Score</label>
-                            <input type="text" name="score" ng-model="numerical_data.score" />
+                            <input name="score" ng-model="params.numerical_data.score" ng-pattern="/^1234$/" />
                         </md-input-container>
                     </div>
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Gilded</label>
-                            <input type="text" name="gilded" ng-model="numerical_data.gilded" />
+                            <input type="text" name="gilded" ng-model="params.numerical_data.gilded" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Controversiality</label>
-                            <input type="text" name="controversiality" ng-model="numerical_data.controversiality" />
+                            <input type="text" name="controversiality" ng-model="params.numerical_data.controversiality" />
                         </md-input-container>
                     </div>
                 </md-content>
@@ -58,43 +85,43 @@
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Subreddit</label>
-                            <input type="text" name="subreddit" ng-model="special_data.subreddit" />
+                            <input type="text" name="subreddit" ng-model="params.special_data.subreddit" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Author</label>
-                            <input type="text" name="author" ng-model="special_data.author" />
+                            <input type="text" name="author" ng-model="params.special_data.author" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Comment ID</label>
-                            <input type="text" name="comment_id" ng-model="special_data.comment_id" />
+                            <input type="text" name="comment_id" ng-model="params.special_data.comment_id" />
                         </md-input-container>
                     </div>
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Subreddit ID</label>
-                            <input type="text" name="subreddit_id" ng-model="special_data.subreddit_id" />
+                            <input type="text" name="subreddit_id" ng-model="params.special_data.subreddit_id" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Parent ID</label>
-                            <input type="text" name="parent_id" ng-model="special_data.parent_id" />
+                            <input type="text" name="parent_id" ng-model="params.special_data.parent_id" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Link ID</label>
-                            <input type="text" name="link_id" ng-model="special_data.link_id" />
+                            <input type="text" name="link_id" ng-model="params.special_data.link_id" />
                         </md-input-container>
                     </div>
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Name</label>
-                            <input type="text" name="name" ng-model="special_data.name" />
+                            <input type="text" name="name" ng-model="params.special_data.name" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Author Flair Text</label>
-                            <input type="text" name="author_flair_text" ng-model="special_data.author_flair_text" />
+                            <input type="text" name="author_flair_text" ng-model="params.special_data.author_flair_text" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Author Flair Class</label>
-                            <input type="text" name="author_flair_class" ng-model="special_data.author_flair_class" />
+                            <input type="text" name="author_flair_class" ng-model="params.special_data.author_flair_class" />
                         </md-input-container>
                     </div>
                 </md-content>
