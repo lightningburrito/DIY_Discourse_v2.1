@@ -17,13 +17,29 @@
     /*margin: 0px;*/
     width: 32%;
 }
+/*.dynamic-horse-crap
+{
+    margin-top: 5px;
+}*/
+md-datepicker
+{
+    margin-right: 10px;
+}
 .radioGroup
 {
     margin: auto;
 }
+.keywords-list
+{
+    width: 48%;
+}
+.keyword-buttons
+{
+    margin-left: 15%;
+}
 .dynamic-input
 {
-    margin: auto;
+    margin-left: 7.8%;
 }
 .type-container
 {

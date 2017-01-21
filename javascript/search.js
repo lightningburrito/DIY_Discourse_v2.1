@@ -10,14 +10,14 @@ function SearchController($scope, $mdDialog, $http)
             string_params: [
                 {
                     not: false,
-                    keyword: "insert thing here",
+                    keyword: "",
                     type: "keyword"
                 }
             ],
             num_params: [
                 {
-                    operator: "",
-                    number: null,
+                    operator: ">",
+                    number: "",
                     type: ""
                 }
             ],
@@ -51,6 +51,8 @@ function SearchController($scope, $mdDialog, $http)
 
     $scope.search = function()
     {
+        console.log($scope.searchParams.numerical_data.retrieved_on);
+        console.log($scope.searchParams.numerical_data.created_utc);
         $http({
             method: 'POST',
             url: '/diy_dfeist/php/test.php',
@@ -103,17 +105,32 @@ function SearchController($scope, $mdDialog, $http)
             $scope.params = p;
             console.log($scope.params);
         }
+        $scope.addLimit = function()
+        {
+            $scope.params.main_data.num_params.push(
+                {
+                    operator: ">",
+                    number: "",
+                    type: ""
+                }
+            );
+            console.log($scope.params.main_data.num_params);
+        };
+
+        $scope.removeLimit = function()
+        {
+            $scope.params.main_data.num_params.pop();
+            console.log($scope.params.main_data.num_params);
+        };
 
         $scope.removeKeyword = function()
         {
-            console.log($scope.params.main_data.string_params);
             $scope.params.main_data.string_params.pop();
             console.log($scope.params.main_data.string_params);
         };
 
         $scope.addKeyword = function ()
         {
-            console.log($scope.params.main_data.string_params);
             $scope.params.main_data.string_params.push(
                 {
                     not: false,
