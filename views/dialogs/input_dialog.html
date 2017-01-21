@@ -39,7 +39,24 @@
                         </md-radio-group>
                     </div>
                 </md-content>
-
+                <md-content>
+                    <div ng-repeat="x in params.main_data.string_params track by $index" class="dynamic-input">
+                        <md-checkbox class="md-inline" ng-true-value="true" ng-false-value="false" ng-model="x.not">Not</md-checkbox>
+                        <md-input-container class="md-inline keyword-container">
+                            <label>Keyword</label>
+                            <input type="text" name="keyword" ng-model="x.keyword" />
+                        </md-input-container>
+                        <md-input-container class="md-inline type-container">
+                            <label>Type</label>
+                            <md-select ng-model="x.type">
+                                <md-option ng-value="'keyword'">Keyword</md-option>
+                                <md-option ng-value="'Substring'">Substring</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <md-button class="md-raised md-primary" ng-click="addKeyword()">Add Field</md-button>
+                    <md-button class="md-raised md-warn" ng-click="removeKeyword()">Remove Field</md-button>
+                </md-content>
                 <!--magic goes here-->
             </md-tab>
             <md-tab label="Numerical">

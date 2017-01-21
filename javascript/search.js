@@ -9,9 +9,9 @@ function SearchController($scope, $mdDialog, $http)
         main_data: {
             string_params: [
                 {
-                    pre_string: "",
-                    string: "",
-                    type: ""
+                    not: false,
+                    keyword: "insert thing here",
+                    type: "keyword"
                 }
             ],
             num_params: [
@@ -103,11 +103,34 @@ function SearchController($scope, $mdDialog, $http)
             $scope.params = p;
             console.log($scope.params);
         }
-        $scope.hide = function() {
+
+        $scope.removeKeyword = function()
+        {
+            console.log($scope.params.main_data.string_params);
+            $scope.params.main_data.string_params.pop();
+            console.log($scope.params.main_data.string_params);
+        };
+
+        $scope.addKeyword = function ()
+        {
+            console.log($scope.params.main_data.string_params);
+            $scope.params.main_data.string_params.push(
+                {
+                    not: false,
+                    keyword: "new thing",
+                    type: "keyword"
+                }
+            );
+            console.log($scope.params.main_data.string_params);
+        };
+
+        $scope.hide = function()
+        {
             $mdDialog.hide();
         };
 
-        $scope.cancel = function() {
+        $scope.cancel = function()
+        {
             $mdDialog.cancel();
         };
 

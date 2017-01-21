@@ -21,6 +21,18 @@
 {
     margin: auto;
 }
+.dynamic-input
+{
+    margin: auto;
+}
+.type-container
+{
+    margin-bottom: 23px;
+}
+.keyword-container
+{
+    margin-bottom: 0px;
+}
 .input-dialog
 {
     width: 1000px;
@@ -38,7 +50,10 @@ md-card
     max-height: 90%;
     min-height: 90%;
 }
-
+md-checkbox
+{
+    margin: 5px;
+}
 footer
 {
     margin: auto;
