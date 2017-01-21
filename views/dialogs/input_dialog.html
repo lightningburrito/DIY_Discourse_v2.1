@@ -39,43 +39,100 @@
                         </md-radio-group>
                     </div>
                 </md-content>
-
+                <md-divider></md-divider>
+                <br />
+                <md-divider></md-divider>
                 <!--magic goes here-->
+                <md-content layout="row">
+                    <span class="keywords-list">
+                        <div ng-repeat="x in params.main_data.string_params track by $index" class="dynamic-input">
+                            <md-checkbox class="md-inline" ng-true-value="true" ng-false-value="false" ng-model="x.not">Not</md-checkbox>
+                            <md-input-container class="md-inline keyword-container">
+                                <label>Keyword</label>
+                                <input type="text" name="keyword" ng-model="x.keyword" />
+                            </md-input-container>
+                            <md-input-container class="md-inline type-container">
+                                <label>Type</label>
+                                <md-select ng-model="x.type">
+                                    <md-option ng-value="'keyword'">Keyword</md-option>
+                                    <md-option ng-value="'Substring'">Substring</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div class="keyword-buttons">
+                            <md-button class="md-raised md-primary" ng-click="addKeyword()">Add Field</md-button>
+                            <md-button class="md-raised md-warn" ng-click="removeKeyword()">Remove Field</md-button>
+                        </div>
+                    </span>
+                    <span class="keywords-list">
+                        <div ng-repeat="x in params.main_data.num_params track by $index" class="dynamic-input">
+                            <md-input-container class="md-inline type-container">
+                                <label>Operator</label>
+                                <md-select ng-model="x.operator">
+                                    <md-option ng-value="'>'">&gt;</md-option>
+                                    <md-option ng-value="'<'">&lt;</md-option>
+                                    <md-option ng-value="'='">=</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="md-inline keyword-container">
+                                <label>Number</label>
+                                <input type="text" name="number" ng-model="x.number" />
+                            </md-input-container>
+                            <md-input-container class="md-inline type-container">
+                                <label>Type</label>
+                                <md-select ng-model="x.type">
+                                    <md-option ng-value="'Word Count'">Word Count</md-option>
+                                    <md-option ng-value="'Sentence Count'">Sentence Count</md-option>
+                                    <md-option ng-value="'LIX'">LIX</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div class="keyword-buttons">
+                            <md-button class="md-raised md-primary" ng-click="addLimit()">Add Field</md-button>
+                            <md-button class="md-raised md-warn" ng-click="removeLimit()">Remove Field</md-button>
+                        </div>
+                    </span>
+                </md-content>
+                <md-divider></md-divider>
             </md-tab>
             <md-tab label="Numerical">
                 <md-content class="md-padding">
                     <div class="searchInputs">
-                        <md-input-container class="md-inline text-input-container">
+                        <!--<md-input-container class="md-inline text-input-container">
                             <label>Retrieved On</label>
                             <input type="text" name="retrieved_on" ng-model="params.numerical_data.retrieved_on" />
-                        </md-input-container>
-                        <md-input-container class="md-inline text-input-container">
+                        </md-input-container>-->
+                        <label>Retrieved On</label>
+                        <md-datepicker ng-model="params.numerical_data.retrieved_on" md-placeholder="Retrieved On"></md-datepicker>
+                        <!--<md-input-container class="md-inline text-input-container">
                             <label>Created UTC</label>
                             <input type="text" name="created_utc" ng-model="params.numerical_data.created_utc" />
-                        </md-input-container>
+                        </md-input-container>-->
+                        <label>Created UTC</label>
+                        <md-datepicker ng-model="params.numerical_data.created_utc" md-placeholder="Created UTC"></md-datepicker>
                     </div>
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Up-Votes</label>
-                            <input name="up_votes" ng-model="params.numerical_data.up_votes" ng-pattern="/^1234$/"/>
+                            <input name="up_votes" ng-model="params.numerical_data.up_votes" type="number"/>
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Down-Votes</label>
-                            <input name="down_votes" ng-model="params.numerical_data.down_votes" ng-pattern="/^1234$/" />
+                            <input name="down_votes" ng-model="params.numerical_data.down_votes" type="number" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Score</label>
-                            <input name="score" ng-model="params.numerical_data.score" ng-pattern="/^1234$/" />
+                            <input name="score" ng-model="params.numerical_data.score" type="number" />
                         </md-input-container>
                     </div>
                     <div class="searchInputs">
                         <md-input-container class="md-inline text-input-container">
                             <label>Gilded</label>
-                            <input type="text" name="gilded" ng-model="params.numerical_data.gilded" />
+                            <input type="text" name="gilded" ng-model="params.numerical_data.gilded" type="number" />
                         </md-input-container>
                         <md-input-container class="md-inline text-input-container">
                             <label>Controversiality</label>
-                            <input type="text" name="controversiality" ng-model="params.numerical_data.controversiality" />
+                            <input type="text" name="controversiality" ng-model="params.numerical_data.controversiality"  type="number" />
                         </md-input-container>
                     </div>
                 </md-content>

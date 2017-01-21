@@ -8,13 +8,15 @@ app.controller("NavCtrl", ["$scope", "$http", NavCtrl]);
 
 function NavCtrl($scope, $http)
 {
-    $scope.openMenu = function($mdOpenMenu, ev) {
+    $scope.openMenu = function($mdOpenMenu, ev)
+    {
         originatorEv = ev;
         $mdOpenMenu(ev);
     };
 }
 
-app.config(function($routeProvider, $locationProvider) {
+app.config(function($routeProvider, $locationProvider)
+{
     $routeProvider
         .when("/search", {
             templateUrl : "views/search.html",
@@ -30,9 +32,8 @@ app.config(function($routeProvider, $locationProvider) {
     //$locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('');
 });
-app.config(function($mdThemingProvider) {
-
+app.config(function($mdThemingProvider)
+{
     $mdThemingProvider.theme('default')
         .primaryPalette('light-blue');
-
 });

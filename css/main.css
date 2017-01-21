@@ -17,9 +17,37 @@
     /*margin: 0px;*/
     width: 32%;
 }
+/*.dynamic-horse-crap
+{
+    margin-top: 5px;
+}*/
+md-datepicker
+{
+    margin-right: 10px;
+}
 .radioGroup
 {
     margin: auto;
+}
+.keywords-list
+{
+    width: 48%;
+}
+.keyword-buttons
+{
+    margin-left: 15%;
+}
+.dynamic-input
+{
+    margin-left: 7.8%;
+}
+.type-container
+{
+    margin-bottom: 23px;
+}
+.keyword-container
+{
+    margin-bottom: 0px;
 }
 .input-dialog
 {
@@ -38,7 +66,10 @@ md-card
     max-height: 90%;
     min-height: 90%;
 }
-
+md-checkbox
+{
+    margin: 5px;
+}
 footer
 {
     margin: auto;
