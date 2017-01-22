@@ -6,9 +6,11 @@
  * Time: 3:07 PM
  */
 
+    require 'database_connections.php';
+
     $search = $_GET ['search'];
 
-    $conn = new mysqli("localhost", "root", "password");
+    $conn = connect();
     if (mysqli_connect_errno())
     {
         printf("Connect failed: %s\n", mysqli_connect_error());
@@ -30,4 +32,4 @@
         echo "0 results";
     }
 
-    $conn->close();
+    disconnect($conn);

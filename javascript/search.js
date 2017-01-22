@@ -55,7 +55,7 @@ function SearchController($scope, $mdDialog, $http)
         console.log($scope.searchParams.numerical_data.created_utc);
         $http({
             method: 'POST',
-            url: '/diy_dfeist/php/test.php',
+            url: '/diy_alawman/php/test.php',
             data: "test",
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
