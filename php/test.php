@@ -14,7 +14,8 @@ function search()
 	}
 
 	$stmt = $conn->prepare("SELECT * FROM cinfo WHERE id=:id LIMIT 1");
-	$stmt->bindParam(":id", $id);
+	$stmt = $conn->prepare("SELECT * FROM cinfo LIMIT 10");
+	//$stmt->bindParam(":id", $id);
 	$id = "cnas8zv";
 
 	$stmt->execute();
