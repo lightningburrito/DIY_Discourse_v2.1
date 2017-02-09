@@ -2,7 +2,7 @@
  * Created by D-Beatz on 10/1/16.
  */
 
-var app = angular.module("discourse", ["ngMaterial", "ngRoute", "ui.grid", "ui.grid.edit"]);
+var app = angular.module("discourse", ["ngMaterial", "ngRoute", "ui.grid", "ui.grid.edit", 'ui.grid.exporter']);
 
 app.controller("NavCtrl", ["$scope", "$http", NavCtrl]);
 
