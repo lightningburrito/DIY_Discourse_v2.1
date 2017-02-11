@@ -19,9 +19,16 @@ function search()
     //$author = "Here_Comes_The_King";
 
 
-    $stmt = $conn->prepare("SELECT * FROM cinfo WHERE author = 'GallowBoob' LIMIT 10");
+    //$stmt = $conn->prepare("SELECT * FROM cinfo WHERE author = 'GallowBoob' LIMIT 10");
     //$author = 'Here_Comes_The_King';
     //$stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
+    //$stmt->execute();
+
+    //echo json_encode($stmt->fetchAll());
+
+    $author = 'GallowBoob';
+    $stmt = $conn->prepare('SELECT * FROM cinfo WHERE author = ? LIMIT 10');
+    $stmt->bindParam(1, $author, PDO::PARAM_STR, 12);
     $stmt->execute();
 
     echo json_encode($stmt->fetchAll());
