@@ -4,22 +4,27 @@ require_once "database_connections.php";
 
 function search()
 {
-	//do search magic
-	$conn = connect();
-	//how the connection is really made
-	if(!$conn)
-	{
-		echo "conn failed";
-		return 0;
-	}
+    //do search magic
+    $conn = connect();
+    //how the connection is really made
+    if(!$conn)
+    {
+        echo "conn failed";
+        return 0;
+    }
 
-	//$stmt = $conn->prepare("SELECT * FROM cinfo WHERE id=:id LIMIT 1");
-	$stmt = $conn->prepare("SELECT * FROM cinfo LIMIT 10");
-	//$stmt->bindParam(":id", $id);
-	$id = "cnas8zv";
+    //$stmt = $conn->prepare("SELECT * FROM cinfo WHERE author=:author LIMIT 1");
+    //$stmt = $conn->prepare("SELECT * FROM cinfo LIMIT 1");
+    //$stmt->bindParam(":author", $author);
+    //$author = "Here_Comes_The_King";
 
-	$stmt->execute();
-	echo json_encode($stmt->fetchAll());
+
+    $stmt = $conn->prepare("SELECT * FROM cinfo WHERE author = 'GallowBoob' LIMIT 10");
+    //$author = 'Here_Comes_The_King';
+    //$stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
+    $stmt->execute();
+
+    echo json_encode($stmt->fetchAll());
 }
 
 search();
