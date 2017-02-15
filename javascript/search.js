@@ -37,7 +37,7 @@ function SearchController($scope, $mdDialog, $http)
         },
         special_data: {
             subreddit: "",
-            author: "",
+            author: "YoungModern",
             comment_id: "",
             subreddit_id: "",
             parent_id: "",
@@ -56,7 +56,7 @@ function SearchController($scope, $mdDialog, $http)
         $http({
             method: 'POST',
             url: '/diy_dfeist/php/test.php',
-            data: "test",
+            data: JSON.stringify($scope.searchParams),
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
             console.log(response);
