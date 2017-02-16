@@ -71,29 +71,35 @@ function SearchController($scope, $mdDialog, $http)
             columnDefs: [
                 {
                     displayName: "ID",
-                    name: "id"
+                    name: "id",
+                    width: "100"
                 },
                 {
                     displayName: "Author",
-                    name: "author"
+                    name: "author",
+                    width: "120"
                 },
                 {
                     displayName: "Ups",
-                    name: "ups"
+                    name: "ups",
+                    width: "80"
                 },
                 {
                     displayName: "Downs",
-                    name: "downs"
+                    name: "downs",
+                    width: "80"
                 },
                 {
                     displayName: "Score",
-                    name: "score"
+                    name: "score",
+                    width: "80"
                 },
                 {
                     displayName: "Body",
                     name: "body"
                 }
             ],
+            exporterSuppressColumns: ["id", "author", "ups", "downs", "score"],
             data: [
 
             ],

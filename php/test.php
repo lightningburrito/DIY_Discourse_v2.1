@@ -28,7 +28,7 @@ function search()
 
 	$data = json_decode(file_get_contents('php://input'));
     $author = $data->special_data->author;
-    $stmt = $conn->prepare('SELECT * FROM cinfo WHERE author = ? LIMIT 1');
+    $stmt = $conn->prepare('SELECT * FROM cinfo WHERE author = ? LIMIT 5');
     $stmt->bindParam(1, $author, PDO::PARAM_STR, 12);
     $stmt->execute();
 
