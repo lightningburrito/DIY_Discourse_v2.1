@@ -10,7 +10,7 @@ function SearchController($scope, $mdDialog, $http)
             string_params: [
                 {
                     not: false,
-                    keyword: "",
+                    keyword: "Search",
                     type: "keyword"
                 }
             ],

@@ -36,12 +36,12 @@ function search()
     //echo json_encode($stmt->fetchAll());
 
     $data = json_decode(file_get_contents('php://input'));
-    //foreach ($data->main_data->string_params as $param)
-	//{
+    foreach ($data->main_data->string_params as $param)
+    {
 
-	//}
+	}
     $keyword = $data->main_data->string_params['keyword'];
-    echo $keyword;
+    echo $param;
 
     if (strlen($keyword) > 0)
     {
