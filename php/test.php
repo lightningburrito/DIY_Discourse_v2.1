@@ -4,6 +4,7 @@ require_once "database_connections.php";
 
 function search()
 {
+
     //do search magic
     $conn = connect();
     //how the connection is really made
@@ -35,6 +36,10 @@ function search()
     //echo json_encode($stmt->fetchAll());
 
     $data = json_decode(file_get_contents('php://input'));
+    foreach ($data->main_data->string_params as $param)
+	{
+
+	}
     $keyword = $data->main_data->string_params[1];
 
     if (strlen($keyword) > 0)
