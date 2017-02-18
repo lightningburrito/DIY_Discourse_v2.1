@@ -36,9 +36,19 @@ function search()
 
     $data = json_decode(file_get_contents('php://input'));
     $keyword = $data->main_data->string_params[1];
-    echo $keyword;
 
-    //if (strlen($keyword) > 0)
+    if (strlen($keyword) > 0)
+    {
+        $stmt = $conn->prepare('SELECT * FROM cinfo WHERE author LIKE ? OR body LIKE ? OR subreddit LIKE ? LIMIT 5');
+        $stmt->bindParam(1, $keyword, PDO::PARAM_STR, 12);
+        $stmt->bindParam(2, $keyword, PDO::PARAM_STR, 12);
+        $stmt->bindParam(3, $keyword, PDO::PARAM_STR, 12);
+        $stmt->execute();
+
+        echo json_encode($stmt->fetchAll());
+    }
+    else
+        echo "No keyword was received";
 }
 
 search();
