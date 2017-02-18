@@ -1,35 +1,64 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: austi
- * Date: 1/16/2017
- * Time: 3:07 PM
- */
 
-    require 'database_connections.php';
+require_once "database_connections.php";
 
-    $search = $_GET ['search'];
+function search()
+{
 
+    //do search magic
     $conn = connect();
-    if (mysqli_connect_errno())
+    //how the connection is really made
+    if(!$conn)
     {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
+        echo "conn failed";
+        return 0;
     }
 
-    $sql = "SELECT * FROM cinfo WHERE author LIKE '$search' OR body LIKE '$search' OR  subreddit LIKE '$search'";
-    $result = $conn->query($sql);
+    //$stmt = $conn->prepare("SELECT * FROM cinfo WHERE author=:author LIMIT 1");
+    //$stmt = $conn->prepare("SELECT * FROM cinfo LIMIT 1");
+    //$stmt->bindParam(":author", $author);
+    //$author = "Here_Comes_The_King";
 
-    if ($result->num_rows > 0)
+
+    //$stmt = $conn->prepare("SELECT * FROM cinfo WHERE author = 'GallowBoob' LIMIT 10");
+    //$author = 'Here_Comes_The_King';
+    //$stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
+    //$stmt->execute();
+
+    //echo json_encode($stmt->fetchAll());
+
+    //$data = json_decode(file_get_contents('php://input'));
+    //$author = $data->special_data->author;
+    //$stmt = $conn->prepare('SELECT * FROM cinfo WHERE author = ? LIMIT 5');
+    //$stmt->bindParam(1, $author, PDO::PARAM_STR, 12);
+    //$stmt->execute();
+
+    //echo json_encode($stmt->fetchAll());
+
+    $data = json_decode(file_get_contents('php://input'));
+    foreach ($data->main_data->string_params as $param)
     {
-        while ($row = $result->fetch_assoc())
-        {
-            echo json_encode($row);
-        }
+        $not = $param->not;
+        $keyword = $param->keyword;
+        $type = $param->type;
+    }
+    //$keyword = $data->main_data->string_params{"keyword"};
+    //echo $data;
+
+    if (strlen($keyword) > 0)
+    {
+        $stmt = $conn->prepare('SELECT * FROM cinfo WHERE author LIKE ? OR body LIKE ? OR subreddit LIKE ? LIMIT 5');
+        $stmt->bindParam(1, $keyword, PDO::PARAM_STR, 12);
+        $stmt->bindParam(2, $keyword, PDO::PARAM_STR, 12);
+        $stmt->bindParam(3, $keyword, PDO::PARAM_STR, 12);
+        $stmt->execute();
+
+        echo json_encode($stmt->fetchAll());
     }
     else
     {
-        echo "0 results";
+        echo "No keyword was received";
     }
+}
 
-    disconnect($conn);
+search();

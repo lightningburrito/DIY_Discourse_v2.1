@@ -36,12 +36,14 @@ function search()
     //echo json_encode($stmt->fetchAll());
 
     $data = json_decode(file_get_contents('php://input'));
-    //foreach ($data->main_data->string_params as $param)
-	//{
-
-	//}
-    $keyword = $data->main_data->string_params['keyword'];
-    echo $keyword;
+    foreach ($data->main_data->string_params as $param)
+	{
+        $not = $param->not;
+        $keyword = $param->keyword;
+        $type = $param->type;
+	}
+    //$keyword = $data->main_data->string_params{"keyword"};
+    //echo $data;
 
     if (strlen($keyword) > 0)
     {
@@ -54,7 +56,9 @@ function search()
         echo json_encode($stmt->fetchAll());
     }
     else
+    {
         echo "No keyword was received";
+    }
 }
 
 search();
