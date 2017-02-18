@@ -55,7 +55,7 @@ function SearchController($scope, $mdDialog, $http)
         console.log($scope.searchParams.numerical_data.created_utc);
         $http({
             method: 'POST',
-            url: '/diy_dfeist/php/test.php',
+            url: '/diy_aolson/php/test.php',
             data: JSON.stringify($scope.searchParams),
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
@@ -102,14 +102,7 @@ function SearchController($scope, $mdDialog, $http)
             exporterSuppressColumns: ["id", "author", "ups", "downs", "score"],
             data: [
 
-            ],
-            enableGridMenu: true,
-            enableSelectAll: true,
-            exporterCsvFilename: 'data.txt',
-            exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-            onRegisterApi: function(gridApi){
-                $scope.gridApi = gridApi;
-            }
+            ]
         };
 
     function ParametersDialogCtl($scope, p, $mdDialog, $mdToast) {
