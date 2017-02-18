@@ -20,10 +20,10 @@ function search()
     //$author = "Here_Comes_The_King";
 
 
-    //$stmt = $conn->prepare("SELECT * FROM cinfo WHERE author = 'GallowBoob' LIMIT 10");
-    //$author = 'Here_Comes_The_King';
-    //$stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
-    //$stmt->execute();
+    $stmt = $conn->prepare("SELECT * FROM cinfo WHERE author = :author LIMIT 10");
+    $author = 'Here_Comes_The_King';
+    $stmt->bindParam(':author', $author);
+    $stmt->execute();
 
     //echo json_encode($stmt->fetchAll());
 
@@ -38,7 +38,9 @@ function search()
     $data = json_decode(file_get_contents('php://input'));
     foreach ($data->main_data->string_params as $param)
     {
-
+    	$not = $param->not;
+		$keyword = $param->keyword;
+		$type = $param->type;
 	}
     $keyword = $data->main_data->string_params['keyword'];
     echo $param;
