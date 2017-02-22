@@ -1,12 +1,25 @@
 
+/*
+* Accesses the discourse module for the application
+*/
 var app = angular.module("discourse");
 
+/*
+* Defines the Controller for the Search View, including the dependencies and the controller function to use
+*/
 app.controller("SearchController", ["$scope", "$mdDialog", "$http", SearchController]);
 
+/*
+* Function that gets attached to the SearchController. Takes in the $scope and $http angular variables,
+* as well as the $mdDialog material design variable for making dialog boxes
+*/
 function SearchController($scope, $mdDialog, $http)
 {
+    //Defining the search parameters object that will be used to make the query client side
     $scope.searchParams = {
+        request_number: 0, //used server side for determining for retrieving chunks of data at a time
         main_data: {
+            //array of objects used to search for keywords
             string_params: [
                 {
                     not: false,
@@ -14,6 +27,7 @@ function SearchController($scope, $mdDialog, $http)
                     type: "keyword"
                 }
             ],
+            //array of objects to search for words/sentences of various sizes
             num_params: [
                 {
                     operator: ">",
@@ -27,8 +41,8 @@ function SearchController($scope, $mdDialog, $http)
             score_hidden: ""
         },
         numerical_data: {
-            retrieved_on: "",
-            created_utc: "",
+            retrieved_on: "", //date
+            created_utc: "", //date
             up_votes: "",
             down_votes: "",
             score: "",
@@ -37,7 +51,7 @@ function SearchController($scope, $mdDialog, $http)
         },
         special_data: {
             subreddit: "",
-            author: "YoungModern",
+            author: "",
             comment_id: "",
             subreddit_id: "",
             parent_id: "",
@@ -47,25 +61,49 @@ function SearchController($scope, $mdDialog, $http)
             author_flair_class: ""
         }
     };
+    /*
+    * Runs the first search for a new query. Gets called when the Search button is pressed.
+    * Sets request_number to 0 because calling this method means that you are starting a new
+    * sequence of data retrievals
+    */
+    $scope.firstSearch = function () {
+        $scope.searchParams.request_number = 0;
+        $scope.search();
+    };
 
-
+    /*
+    * Sends the http request to make the search
+    *
+    */
     $scope.search = function()
     {
-        console.log($scope.searchParams.numerical_data.retrieved_on);
-        console.log($scope.searchParams.numerical_data.created_utc);
         $http({
             method: 'POST',
-            url: '/diy_aolson/php/test.php',
+            url: '/diy_dfeist/php/test.php',
             data: JSON.stringify($scope.searchParams),
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
             console.log(response);
-            $scope.gridOptions.data = response.data;
+            if($scope.searchParams.request_number==0)
+            {
+                //If the request number is 0, then assign the data to the ui-grid data variable
+                $scope.gridOptions.data = response.data;
+                console.log($scope.gridOptions.data);
+            }
+            else{
+                //If the request number is not 0, concatenate the response data to the ui-grid data variable
+                $scope.gridOptions.data = $scope.gridOptions.data.concat(response.data);
+                console.log($scope.gridOptions.data);
+            }
+            $scope.searchParams.request_number++;
         }, function (response) {
             console.log(response);
         });
     };
 
+    /*
+    * Defines the grid options
+    */
     $scope.gridOptions =
         {
             columnDefs: [
@@ -99,18 +137,26 @@ function SearchController($scope, $mdDialog, $http)
                     name: "body"
                 }
             ],
-            exporterSuppressColumns: ["id", "author", "ups", "downs", "score"],
+            exporterSuppressColumns: ["id", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [
 
             ]
         };
 
-    function ParametersDialogCtl($scope, p, $mdDialog, $mdToast) {
+    /*
+    * Defines the controller used by the dialog to edit parameters
+    * Takes in the variables $scope, $mdDialog, and the variable p.
+    * P is the local variable name for $scope.search_params (passed by reference).
+    * */
+    function ParametersDialogCtl($scope, p, $mdDialog) {
+
+        //Initializes the local $scope.params variable
         function Init()
         {
             $scope.params = p;
             console.log($scope.params);
         }
+        //Adds a limiter object to the num_params array
         $scope.addLimit = function()
         {
             $scope.params.main_data.num_params.push(
@@ -122,19 +168,19 @@ function SearchController($scope, $mdDialog, $http)
             );
             console.log($scope.params.main_data.num_params);
         };
-
+        //Removes a limiter object from the num_params array
         $scope.removeLimit = function()
         {
             $scope.params.main_data.num_params.pop();
             console.log($scope.params.main_data.num_params);
         };
-
+        //Removes a keyword object from the string_params array
         $scope.removeKeyword = function()
         {
             $scope.params.main_data.string_params.pop();
             console.log($scope.params.main_data.string_params);
         };
-
+        //Adds a keyword object to the string_params array
         $scope.addKeyword = function ()
         {
             $scope.params.main_data.string_params.push(
@@ -147,11 +193,13 @@ function SearchController($scope, $mdDialog, $http)
             console.log($scope.params.main_data.string_params);
         };
 
+        //Function used to hide the dialog
         $scope.hide = function()
         {
             $mdDialog.hide();
         };
 
+        //Function used to cancel the dialog
         $scope.cancel = function()
         {
             $mdDialog.cancel();
@@ -159,6 +207,8 @@ function SearchController($scope, $mdDialog, $http)
 
         Init();
     }
+
+    //Opens up the Parameters Dialog
     $scope.openParametersDialog = function(ev)
     {
         $mdDialog.show({
