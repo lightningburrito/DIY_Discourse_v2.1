@@ -352,6 +352,16 @@ function search()
     $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':subreddit_id', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':parent_id', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':link_id', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':name', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':author_flair_text', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':author_flair_class', $keyword, PDO::PARAM_STR, 12);
+    //$stmt->bindParam(':subreddit_id', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':comment_id', $keyword, PDO::PARAM_STR, 12);
+    //$stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
+    //$stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
     //$sql .= ' LIMIT ' . $start . ', 20';
     //echo $sql;
