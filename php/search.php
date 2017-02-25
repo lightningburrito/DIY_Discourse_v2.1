@@ -15,6 +15,8 @@ function search()
     }
 
     $data = json_decode(file_get_contents('php://input'));
+    $sql = 'SELECT * FROM cinfo WHERE';
+    $stmt = $conn->prepare($sql);
 
     $edited = $data->main_data->edited;
     $archived = $data->main_data->archived;
@@ -52,30 +54,44 @@ function search()
         $type = $param->type;
     }
 
+
     //if (strlen($keyword) > 0)
     //{
-        //$stmt = $conn->prepare('SELECT * FROM cinfo WHERE author LIKE ? OR body LIKE ? OR subreddit LIKE ? LIMIT 5');
-        //$stmt->bindParam(1, $keyword, PDO::PARAM_STR, 12);
-        //$stmt->bindParam(2, $keyword, PDO::PARAM_STR, 12);
-        //$stmt->bindParam(3, $keyword, PDO::PARAM_STR, 12);
+        //$start = intval($data->request_number) * 20;
+        //$stmt = $conn->prepare('SELECT * FROM cinfo WHERE author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit LIMIT :start, 20');
+        //$stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
+        //$stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
+        //$stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
+        //$stmt->bindParam(':start', $start, PDO::PARAM_INT);
         //$stmt->execute();
 
         //echo json_encode($stmt->fetchAll());
     //}
+
     if (strlen($keyword) > 0)
     {
-        $stmt = $conn->prepare('SELECT * FROM cinfo WHERE author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit LIMIT 5');
+        $sql .= ' author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit';
         $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
         $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
         $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
-        $stmt->execute();
+        //$sql .= ' author LIKE ' . $keyword . ' OR body LIKE ' . $keyword . ' OR subreddit LIKE ' . $keyword;
 
-        echo json_encode($stmt->fetchAll());
     }
     else
     {
         echo "No keyword was received";
     }
+
+    $start = intval($data->request_number) * 20;
+    $sql .= ' LIMIT :start, 20';
+    $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+    //$sql .= ' LIMIT ' . $start . ', 20';
+    //echo $sql;
+    $stmt->execute();
+
+
+
+    echo json_encode($stmt->fetchAll());
 
 
 }
