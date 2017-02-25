@@ -16,30 +16,30 @@ function search()
 
     $data = json_decode(file_get_contents('php://input'));
     $sql = 'SELECT * FROM cinfo WHERE';
-    $stmt = $conn->prepare($sql);
 
-    $edited = $data->main_data->edited;
-    $archived = $data->main_data->archived;
-    $distinguished = $data->main_data->distinguished;
-    $scoreHidden = $data->main_data->score_hidden;
 
-    $retrievedOn = $data->numerical_data->retrieved_on;
-    $createdUTC = $data->numerical_data->created_utc;
-    $upvotes = $data->numerical_data->up_votes;
-    $downvotes = $data->numerical_data->down_votes;
-    $score = $data->numerical_data->score;
-    $gilded = $data->numerical_data->gilded;
-    $controversiality = $data->numerical_data->controversiality;
+    //$edited = $data->main_data->edited;
+    //$archived = $data->main_data->archived;
+    //$distinguished = $data->main_data->distinguished;
+    //$scoreHidden = $data->main_data->score_hidden;
 
-    $subreddit = $data->special_data->subreddit;
-    $author = $data->special_data->author;
-    $commentID = $data->special_data->comment_id;
-    $subredditID = $data->special_data->subreddit_id;
-    $parentID = $data->special_data->parent_id;
-    $linkID = $data->special_data->link_id;
-    $name = $data->special_data->name;
-    $authorFlairText = $data->special_data->author_flair_text;
-    $authorFlairClass = $data->special_data->author_flair_class;
+    //$retrievedOn = $data->numerical_data->retrieved_on;
+    //$createdUTC = $data->numerical_data->created_utc;
+    //$upvotes = $data->numerical_data->up_votes;
+    //$downvotes = $data->numerical_data->down_votes;
+    //$score = $data->numerical_data->score;
+    //$gilded = $data->numerical_data->gilded;
+    //$controversiality = $data->numerical_data->controversiality;
+
+    //$subreddit = $data->special_data->subreddit;
+    //$author = $data->special_data->author;
+    //$commentID = $data->special_data->comment_id;
+    //$subredditID = $data->special_data->subreddit_id;
+    //$parentID = $data->special_data->parent_id;
+    //$linkID = $data->special_data->link_id;
+    //$name = $data->special_data->name;
+    //$authorFlairText = $data->special_data->author_flair_text;
+    //$authorFlairClass = $data->special_data->author_flair_class;
 
     foreach ($data->main_data->string_params as $param)
     {
@@ -71,9 +71,6 @@ function search()
     if (strlen($keyword) > 0)
     {
         $sql .= ' author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit';
-        $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
-        $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
-        $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
         //$sql .= ' author LIKE ' . $keyword . ' OR body LIKE ' . $keyword . ' OR subreddit LIKE ' . $keyword;
 
     }
@@ -84,6 +81,11 @@ function search()
 
     $start = intval($data->request_number) * 20;
     $sql .= ' LIMIT :start, 20';
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
     //$sql .= ' LIMIT ' . $start . ', 20';
     //echo $sql;
