@@ -16,17 +16,18 @@ function search()
 
     $data = json_decode(file_get_contents('php://input'));
     $sql = 'SELECT * FROM cinfo WHERE';
+    $firstField = 0;        //boolean flag that determines if the current field is the first one in the SQL statement
 
 
-    //$edited = $data->main_data->edited;
+    $edited = $data->main_data->edited;
     //$archived = $data->main_data->archived;
     //$distinguished = $data->main_data->distinguished;
     //$scoreHidden = $data->main_data->score_hidden;
 
-    //$retrievedOn = $data->numerical_data->retrieved_on;
-    //$createdUTC = $data->numerical_data->created_utc;
-    //$upvotes = $data->numerical_data->up_votes;
-    //$downvotes = $data->numerical_data->down_votes;
+    $retrievedOn = $data->numerical_data->retrieved_on;
+    $createdUTC = $data->numerical_data->created_utc;
+    $upvotes = $data->numerical_data->up_votes;
+    $downvotes = $data->numerical_data->down_votes;
     //$score = $data->numerical_data->score;
     //$gilded = $data->numerical_data->gilded;
     //$controversiality = $data->numerical_data->controversiality;
@@ -53,6 +54,52 @@ function search()
         $number = $param->number;
         $type = $param->type;
     }
+
+    if (strcmp($edited, 'true'))
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' edited = :edited';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND edited = :edited';
+    }
+
+    if (strlen($retrievedOn) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' retrieved_on = :retrievedOn';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND retrieved_on = :retrievedOn';
+    }
+
+    if (strlen($createdUTC) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' created_utc = :createdUTC';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND created_utc = :createdUTC';
+    }
+
+    if (strlen($upvotes) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' ups = :upvotes';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND ups = :upvotes';
+    }
+
+
 
 
     //if (strlen($keyword) > 0)
