@@ -338,6 +338,17 @@ function search()
     $sql .= ' LIMIT :start, 20';
 
     $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':edited', $edited, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':archived', $archived, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':distinguished', $distinguished, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':scoreHidden', $scoreHidden, PDO::PARAM_STR, 12);
+    $stmt->bindParam(':retrievedOn', $retrievedOn, PDO::PARAM_INT);
+    $stmt->bindParam(':createdUTC', $createdUTC, PDO::PARAM_INT);
+    $stmt->bindParam(':upvotes', $upvotes, PDO::PARAM_INT);
+    $stmt->bindParam(':downvotes', $downvotes, PDO::PARAM_INT);
+    $stmt->bindParam(':score', $score, PDO::PARAM_INT);
+    $stmt->bindParam(':gilded', $gilded, PDO::PARAM_INT);
+    $stmt->bindParam(':controversiality', $controversiality, PDO::PARAM_INT);
     $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
