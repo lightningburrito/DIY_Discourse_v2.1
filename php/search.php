@@ -32,15 +32,15 @@ function search()
     //$gilded = $data->numerical_data->gilded;
     //$controversiality = $data->numerical_data->controversiality;
 
-    //$subreddit = $data->special_data->subreddit;
-    //$author = $data->special_data->author;
-    //$commentID = $data->special_data->comment_id;
-    //$subredditID = $data->special_data->subreddit_id;
-    //$parentID = $data->special_data->parent_id;
-    //$linkID = $data->special_data->link_id;
-    //$name = $data->special_data->name;
-    //$authorFlairText = $data->special_data->author_flair_text;
-    //$authorFlairClass = $data->special_data->author_flair_class;
+    $subreddit = $data->special_data->subreddit;
+    $author = $data->special_data->author;
+    $commentID = $data->special_data->comment_id;
+    $subredditID = $data->special_data->subreddit_id;
+    $parentID = $data->special_data->parent_id;
+    $linkID = $data->special_data->link_id;
+    $name = $data->special_data->name;
+    $authorFlairText = $data->special_data->author_flair_text;
+    $authorFlairClass = $data->special_data->author_flair_class;
 
     foreach ($data->main_data->string_params as $param)
     {
@@ -98,7 +98,96 @@ function search()
         else
             $sql .= ' AND ups = :upvotes';
     }
-
+    if (strlen($subreddit) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' subreddit = :subreddit';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND subreddit = :subreddit';
+        }
+    if (strlen($author) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' author = :author';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND author = :author';
+        }
+    if (strlen($comment_id) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' comment_id = :comment_id';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND comment_id = :comment_id';
+        }
+    if (strlen($subreddit_id) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' subreddit_id = :subreddit_id';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND subreddit_id = :subreddit_id';
+        }
+     if (strlen($parent_id) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' parent_id = :parent_id';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND parent_id = :parent_id';
+        }
+    if (strlen($link_id) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' link_id = :link_id';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND link_id = :link_id';
+        }
+    if (strlen($name) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' name = :name';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND name = :name';
+        }
+    if (strlen($author_flair_text) > 0)
+        {
+            if ($firstField == 0)
+            {
+                $sql .= ' author_flair_text = :author_flair_text';
+                $firstField = 1;
+            }
+            else
+                $sql .= ' AND author_flair_text = :author_flair_text';
+        }
+    if (strcmp($author_flair_class, 'true'))
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' author_flair_class = :author_flair_class';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND author_flair_class = :author_flair_class';
+    }
 
 
 
