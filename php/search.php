@@ -392,19 +392,19 @@ function search()
     $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
-    if(subredditID_flag == 1)
+    if($subredditID_flag == 1)
         $stmt->bindParam(':subreddit_id', $subredditId, PDO::PARAM_STR, 12);
-    if(parentID_flag == 1)
+    if($parentID_flag == 1)
         $stmt->bindParam(':parent_id', $parentId, PDO::PARAM_STR, 12);
-    if(linkID_flag == 1)
+    if($linkID_flag == 1)
         $stmt->bindParam(':link_id', $linkId, PDO::PARAM_STR, 12);
-    if(name_flag == 1)
+    if($name_flag == 1)
         $stmt->bindParam(':name', $name, PDO::PARAM_STR, 12);
-    if(authorFlairText_flag == 1)
+    if($authorFlairText_flag == 1)
         $stmt->bindParam(':author_flair_text', $authorFlairText, PDO::PARAM_STR, 12);
-    if(authorFlairClass_flag == 1)
+    if($authorFlairClass_flag == 1)
         $stmt->bindParam(':author_flair_class', $authorFlairClass, PDO::PARAM_STR, 12);
-    if(commentID_flag == 1)
+    if($commentID_flag == 1)
         $stmt->bindParam(':comment_id', $commentId, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
     //$sql .= ' LIMIT ' . $start . ', 20';
