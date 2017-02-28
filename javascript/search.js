@@ -142,7 +142,8 @@ function SearchController($scope, $mdDialog, $http)
             exporterSuppressColumns: ["id", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [
 
-            ]
+            ],
+            rowTemplate: '<div ng-click="grid.appScope.gridRowClick($event, row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
 
     /*
@@ -210,6 +211,19 @@ function SearchController($scope, $mdDialog, $http)
         Init();
     }
 
+    $scope.gridRowClick = function (ev, row) {
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title('Comment Body')
+                .textContent(row.entity.body)
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+        console.log(row.entity.body);
+    };
     //Opens up the Parameters Dialog
     $scope.openParametersDialog = function(ev)
     {
