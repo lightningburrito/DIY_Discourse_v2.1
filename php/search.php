@@ -13,6 +13,9 @@ function search()
     $data = json_decode(file_get_contents('php://input'));
     $sql = 'SELECT * FROM cinfo WHERE';
     $firstField = 0;        //boolean flag that determines if the current field is the first one in the SQL statement
+
+    //flags that denote if a field was added to the sql statement
+    //used later when binding parameters
     $edited_flag = 0;
     $archived_flag = 0;
     $distinguished_flag = 0;
@@ -33,6 +36,8 @@ function search()
     $subreddit_flag = 0;
     $parentID_flag = 0;
     $linkID_flag = 0;
+
+    //setting the input to variables
     $edited = $data->main_data->edited;
     $archived = $data->main_data->archived;
     $distinguished = $data->main_data->distinguished;
@@ -53,6 +58,10 @@ function search()
     $name = $data->special_data->name;
     $authorFlairText = $data->special_data->author_flair_text;
     $authorFlairClass = $data->special_data->author_flair_class;
+
+    //$score = 5;
+
+
     foreach ($data->main_data->string_params as $param)
     {
         $not = $param->not;
@@ -65,10 +74,16 @@ function search()
         $number = $param->number;
         $type = $param->type;
     }
-    if (strcmp($edited, 'true') == 0)
+    //$edited = 'false';
+    //echo $edited;
+
+    //checks if each field should be added to the sql select statement
+    //sets a flag equal to true for binding purposes later
+    if ($edited == 1)
     {
         if ($firstField == 0)
         {
+            $edited = 'true';
             $sql .= ' edited = :edited';
             $firstField = 1;
         }
@@ -76,8 +91,9 @@ function search()
             $sql .= ' AND edited = :edited';
         $edited_flag = 1;
     }
-    else if (strcmp($edited, 'false') == 0)
+    else
     {
+        $edited = 'false';
         if ($firstField == 0)
         {
             $sql .= ' edited = :edited';
@@ -197,7 +213,7 @@ function search()
             $sql .= ' AND downs = :downvotes';
         $downvotes_flag = 1;
     }
-    if (strlen($score) > 0)
+    if ($score != null)
     {
         if ($firstField == 0)
         {
@@ -231,141 +247,139 @@ function search()
         $controversiality_flag = 1;
     }
     if (strlen($subreddit) > 0)
+    {
+        if ($firstField == 0)
         {
-            if ($firstField == 0)
-            {
-                $sql .= ' subreddit = :subreddit';
-                $firstField = 1;
-            }
-            else
-                $sql .= ' AND subreddit = :subreddit';
-            $subreddit_flag = 1;
+            $sql .= ' subreddit = :subreddit';
+            $firstField = 1;
         }
-        if (strlen($author) > 0)
+        else
+            $sql .= ' AND subreddit = :subreddit';
+        $subreddit_flag = 1;
+    }
+    if (strlen($author) > 0)
+    {
+        if ($firstField == 0)
         {
-            if ($firstField == 0)
-            {
-                $sql .= ' author = :author';
-                $firstField = 1;
+            $sql .= ' author = :author';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND author = :author';
+        $author_flag = 1;
+    }
+    if (strlen($commentID) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' comment_id = :comment_id';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND comment_id = :comment_id';
+        $commentID_flag = 1;
+    }
+    if (strlen($subredditID) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' subreddit_id = :subreddit_id';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND subreddit_id = :subreddit_id';
+        $subredditID_flag = 1;
+    }
+    if (strlen($parentID) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' parent_id = :parent_id';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND parent_id = :parent_id';
+        $parentID_flag = 1;
+    }
+    if (strlen($linkID) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' link_id = :link_id';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND link_id = :link_id';
+        $linkID_flag = 1;
+    }
+    if (strlen($name) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' name = :name';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND name = :name';
+        $name_flag = 1;
+    }
+    if (strlen($authorFlairText) > 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' author_flair_text = :author_flair_text';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND author_flair_text = :author_flair_text';
+        $authorFlairText_flag = 1;
+    }
+    if (strcmp($authorFlairClass, 'true') == 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' author_flair_class = :author_flair_class';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND author_flair_class = :author_flair_class';
+        $authorFlairClass_flag = 1;
+    }
+    else if (strcmp($authorFlairClass, 'false') == 0)
+    {
+        if ($firstField == 0)
+        {
+            $sql .= ' author_flair_class = :author_flair_class';
+            $firstField = 1;
+        }
+        else
+            $sql .= ' AND author_flair_class = :author_flair_class';
+        $authorFlairClass_flag = 1;
+    }
 
-            }
-            else
-                $sql .= ' AND author = :author';
-            $author_flag = 1;
-        }
-        if (strlen($commentID) > 0)
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' comment_id = :comment_id';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND comment_id = :comment_id';
-            $commentID_flag = 1;
-        }
-        if (strlen($subredditID) > 0)
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' subreddit_id = :subreddit_id';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND subreddit_id = :subreddit_id';
-            $subredditID_flag = 1;
-        }
-        if (strlen($parentID) > 0)
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' parent_id = :parent_id';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND parent_id = :parent_id';
-            $parentID_flag = 1;
-        }
-        if (strlen($linkID) > 0)
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' link_id = :link_id';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND link_id = :link_id';
-            $linkID_flag = 1;
-        }
-        if (strlen($name) > 0)
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' name = :name';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND name = :name';
-            $name_flag = 1;
-        }
-        if (strlen($authorFlairText) > 0)
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' author_flair_text = :author_flair_text';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND author_flair_text = :author_flair_text';
-            $authorFlairText_flag = 1;
-        }
-        if (strcmp($authorFlairClass, 'true'))
-        {
-            if ($firstField == 0)
-            {
-                $sql .= ' author_flair_class = :author_flair_class';
-                $firstField = 1;
-
-            }
-            else
-                $sql .= ' AND author_flair_class = :author_flair_class';
-            $authorFlairClass_flag = 1;
-        }
-    //if (strlen($keyword) > 0)
-    //{
-        //$start = intval($data->request_number) * 20;
-        //$stmt = $conn->prepare('SELECT * FROM cinfo WHERE author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit LIMIT :start, 20');
-        //$stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
-        //$stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
-        //$stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
-        //$stmt->bindParam(':start', $start, PDO::PARAM_INT);
-        //$stmt->execute();
-        //echo json_encode($stmt->fetchAll());
-    //}
-    //$keyword = 'GallowBoob';
+    //$keyword = "science";
     if (strlen($keyword) > 0)
     {
         if ($firstField == 0)
         {
-            $sql .= ' author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit';
+            $sql .= ' (author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit)';
             $firstField = 1;
         }
         else
-            $sql .= ' AND author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit';
+            $sql .= ' AND (author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit)';
     }
     else
     {
         echo "No keyword was received";
     }
+
+
     $start = intval($data->request_number) * 20;
     $sql .= ' LIMIT :start, 20';
+
     //echo $sql;
+
+    //binds any parameters that have been added to the select statement
     $stmt = $conn->prepare($sql);
     if ($edited_flag == 1)
         $stmt->bindParam(':edited', $edited, PDO::PARAM_STR, 12);
@@ -393,11 +407,11 @@ function search()
     $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
     $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
     if($subredditID_flag == 1)
-        $stmt->bindParam(':subreddit_id', $subredditId, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':subreddit_id', $subredditID, PDO::PARAM_STR, 12);
     if($parentID_flag == 1)
-        $stmt->bindParam(':parent_id', $parentId, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':parent_id', $parentID, PDO::PARAM_STR, 12);
     if($linkID_flag == 1)
-        $stmt->bindParam(':link_id', $linkId, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':link_id', $linkID, PDO::PARAM_STR, 12);
     if($name_flag == 1)
         $stmt->bindParam(':name', $name, PDO::PARAM_STR, 12);
     if($authorFlairText_flag == 1)
@@ -405,9 +419,10 @@ function search()
     if($authorFlairClass_flag == 1)
         $stmt->bindParam(':author_flair_class', $authorFlairClass, PDO::PARAM_STR, 12);
     if($commentID_flag == 1)
-        $stmt->bindParam(':comment_id', $commentId, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
-    //$sql .= ' LIMIT ' . $start . ', 20';
+
+
     //echo $sql;
     $stmt->execute();
     echo json_encode($stmt->fetchAll());
