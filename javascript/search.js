@@ -98,7 +98,7 @@ function SearchController($scope, $mdDialog, $http)
             $scope.searchParams.request_number++;
         }, function (response) {
             console.log(response);
-            mdDialog.show(
+            $mdDialog.show(
                 $mdDialog.alert()
                     .parent(angular.element(document.querySelector('#popupContainer')))
                     .clickOutsideToClose(true)
