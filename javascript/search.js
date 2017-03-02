@@ -150,9 +150,7 @@ function SearchController($scope, $mdDialog, $http)
             enableGridMenu: true,
             exporterCsvFilename: 'data.txt',
             exporterSuppressColumns: ["id", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
-            data: [
-
-            ],
+            data: [],
             rowTemplate: '<div ng-click="grid.appScope.gridRowClick($event, row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
 
