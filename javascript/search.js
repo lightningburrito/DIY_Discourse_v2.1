@@ -98,6 +98,16 @@ function SearchController($scope, $mdDialog, $http)
             $scope.searchParams.request_number++;
         }, function (response) {
             console.log(response);
+            mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Search Failed')
+                    .textContent(row.entity.body)
+                    .ariaLabel("Ya done messed up A. Aron. Try again!")
+                    .ok('Got it!')
+                    .targetEvent(ev)
+            );
         });
     };
 
