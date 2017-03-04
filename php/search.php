@@ -36,6 +36,7 @@ function search()
     $subreddit_flag = 0;
     $parentID_flag = 0;
     $linkID_flag = 0;
+    $keyword_flag = 0;
 
     //setting the input to variables
     $edited = $data->main_data->edited;
@@ -74,24 +75,20 @@ function search()
         $number = $param->number;
         $type = $param->type;
     }
-    //$edited = 'false';
-    //echo $edited;
 
     //checks if each field should be added to the sql select statement
     //sets a flag equal to true for binding purposes later
-    if ($edited == 1)
+    if (strcmp($edited, 'yes') == 0)
     {
         if ($firstField == 0)
         {
-            $edited = 'true';
-            $sql .= ' edited = :edited';
+            $sql .= " edited != 'false'";
             $firstField = 1;
         }
         else
-            $sql .= ' AND edited = :edited';
-        $edited_flag = 1;
+            $sql .= " AND edited != 'false'";
     }
-    else
+    else if (strcmp($edited, 'no') == 0)
     {
         $edited = 'false';
         if ($firstField == 0)
@@ -103,8 +100,19 @@ function search()
             $sql .= ' AND edited = :edited';
         $edited_flag = 1;
     }
-    if (strcmp($archived, 'true') == 0)
+    if (strcmp($archived, 'yes') == 0)
     {
+        if ($firstField == 0)
+        {
+            $sql .= " archived != 'false'";
+            $firstField = 1;
+        }
+        else
+            $sql .= " AND archived != 'false'";
+    }
+    else if (strcmp($archived, 'no') == 0)
+    {
+        $archived = 'false';
         if ($firstField == 0)
         {
             $sql .= ' archived = :archived';
@@ -114,30 +122,19 @@ function search()
             $sql .= ' AND archived = :archived';
         $archived_flag = 1;
     }
-    else if (strcmp($archived, 'false') == 0)
+    if (strcmp($distinguished, 'yes') == 0)
     {
         if ($firstField == 0)
         {
-            $sql .= ' archived = :archived';
+            $sql .= " distinguished != 'null'";
             $firstField = 1;
         }
         else
-            $sql .= ' AND archived = :archived';
-        $archived_flag = 1;
+            $sql .= " AND distinguished != 'null'";
     }
-    if (strcmp($distinguished, 'true') == 0)
+    else if (strcmp($distinguished, 'no') == 0)
     {
-        if ($firstField == 0)
-        {
-            $sql .= ' distinguished = :distinguished';
-            $firstField = 1;
-        }
-        else
-            $sql .= ' AND distinguished = :distinguished';
-        $distinguished_flag = 1;
-    }
-    else if (strcmp($distinguished, 'false') == 0)
-    {
+        $distinguished = 'null';
         if ($firstField == 0)
         {
             $sql .= ' distinguished = :distinguished';
@@ -147,19 +144,19 @@ function search()
             $sql .= ' AND distinguished = :distinguished';
         $distinguished_flag = 1;
     }
-    if (strcmp($scoreHidden, 'true') == 0)
+    if (strcmp($scoreHidden, 'yes') == 0)
     {
         if ($firstField == 0)
         {
-            $sql .= ' score_hidden = :scoreHidden';
+            $sql .= " score_hidden != 'false'";
             $firstField = 1;
         }
         else
-            $sql .= ' AND score_hidden = :scoreHidden';
-        $score_hidden_flag = 1;
+            $sql .= " AND score_hidden != 'false'";
     }
-    else if (strcmp($scoreHidden, 'false') == 0)
+    else if (strcmp($scoreHidden, 'no') == 0)
     {
+        $scoreHidden = 'false';
         if ($firstField == 0)
         {
             $sql .= ' score_hidden = :scoreHidden';
@@ -182,13 +179,14 @@ function search()
     }
     if (strlen($createdUTC) > 0)
     {
+        $createdUTC = strtotime($createdUTC);
         if ($firstField == 0)
         {
-            $sql .= ' created_utc = :createdUTC';
+            $sql .= ' created_utc LIKE :createdUTC';
             $firstField = 1;
         }
         else
-            $sql .= ' AND created_utc = :createdUTC';
+            $sql .= ' AND created_utc LIKE :createdUTC';
         $created_utc_flag = 1;
     }
     if (strlen($upvotes) > 0)
@@ -213,7 +211,7 @@ function search()
             $sql .= ' AND downs = :downvotes';
         $downvotes_flag = 1;
     }
-    if ($score != null)
+    if (strlen($score) > 0)
     {
         if ($firstField == 0)
         {
@@ -334,7 +332,7 @@ function search()
             $sql .= ' AND author_flair_text = :author_flair_text';
         $authorFlairText_flag = 1;
     }
-    if (strcmp($authorFlairClass, 'true') == 0)
+    if (strlen($authorFlairClass > 0))
     {
         if ($firstField == 0)
         {
@@ -345,7 +343,7 @@ function search()
             $sql .= ' AND author_flair_class = :author_flair_class';
         $authorFlairClass_flag = 1;
     }
-    else if (strcmp($authorFlairClass, 'false') == 0)
+    else if (strlen($authorFlairClass > 0))
     {
         if ($firstField == 0)
         {
@@ -367,16 +365,18 @@ function search()
         }
         else
             $sql .= ' AND (author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit)';
+        $keyword_flag = 1;
     }
-    else
-    {
-        echo "No keyword was received";
-    }
+    //else
+    //{
+        //echo "No keyword was received";
+    //}
 
 
     $start = intval($data->request_number) * 20;
     $sql .= ' LIMIT :start, 20';
 
+    //echo $createdUTC;
     //echo $sql;
 
     //binds any parameters that have been added to the select statement
@@ -403,9 +403,11 @@ function search()
         $stmt->bindParam(':gilded', $gilded, PDO::PARAM_INT);
     if ($controversiality_flag == 1)
         $stmt->bindParam(':controversiality', $controversiality, PDO::PARAM_INT);
-    $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
-    $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
-    $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
+    if ($keyword_flag == 1) {
+        $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
+    }
     if($subredditID_flag == 1)
         $stmt->bindParam(':subreddit_id', $subredditID, PDO::PARAM_STR, 12);
     if($parentID_flag == 1)
