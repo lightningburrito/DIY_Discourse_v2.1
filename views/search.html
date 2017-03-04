@@ -6,7 +6,11 @@
             <span class="md-headline">Search all Things</span>
         </md-card-title-text>
     </md-card-title>
-    <md-button class="md-raised param-button" ng-click="openParametersDialog($event)">Search Parameters</md-button>
+    <span layout="row">
+        <md-button class="md-raised param-button" ng-click="openParametersDialog($event)">Search Parameters</md-button>
+        <md-button class="md-raised param-button" ng-click="openTagDialog($event)">Enter Tag</md-button>
+    </span>
+
     <br />
     <md-button class="md-raised param-button md-primary" ng-click="firstSearch()">Search</md-button>
     <md-button class="md-raised param-button md-primary" ng-click="search()">Get More</md-button>
