@@ -35,7 +35,7 @@ function SearchController($scope, $mdDialog, $http)
                     type: ""
                 }
             ],
-            edited: "",
+            edited: "yes",
             archived: "",
             distinguished: "",
             score_hidden: ""
