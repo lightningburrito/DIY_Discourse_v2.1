@@ -4,7 +4,8 @@
 /*
 * Defines the angular application and all the dependencies
 */
-var app = angular.module("discourse", ["ngMaterial", "ngRoute", "ui.grid", "ui.grid.edit", 'ui.grid.exporter']);
+var app = angular.module("discourse",
+    ["ngMaterial", "ngRoute", "ui.grid", "ui.grid.edit", 'ui.grid.exporter', 'ui.grid.selection']);
 
 /*
 * Defines the NavCtrl controler for navigating tabs

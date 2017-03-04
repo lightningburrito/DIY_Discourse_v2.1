@@ -148,6 +148,8 @@ function SearchController($scope, $mdDialog, $http)
                 }
             ],
             enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
             enableGridMenu: true,
             exporterCsvFilename: 'data.txt',
             exporterSuppressColumns: ["id", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
