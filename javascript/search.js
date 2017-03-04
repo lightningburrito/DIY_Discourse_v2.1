@@ -21,19 +21,11 @@ function SearchController($scope, $mdDialog, $http)
         main_data: {
             //array of objects used to search for keywords
             string_params: [
-                {
-                    not: false,
-                    keyword: "Search",
-                    type: "keyword"
-                }
+
             ],
             //array of objects to search for words/sentences of various sizes
             num_params: [
-                {
-                    operator: ">",
-                    number: "",
-                    type: ""
-                }
+
             ],
             edited: "",
             archived: "",
@@ -79,7 +71,7 @@ function SearchController($scope, $mdDialog, $http)
     {
         $http({
             method: 'POST',
-            url: '/diy_dfeist/php/test.php',
+            url: '/diy_dfeist/php/search.php',
             data: JSON.stringify($scope.searchParams),
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
