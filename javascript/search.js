@@ -147,12 +147,17 @@ function SearchController($scope, $mdDialog, $http)
                     name: "body"
                 }
             ],
+            enableRowSelection: true,
             enableGridMenu: true,
             exporterCsvFilename: 'data.txt',
             exporterSuppressColumns: ["id", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [],
             rowTemplate: '<div ng-click="grid.appScope.gridRowClick($event, row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
+    $scope.gridOptions.onRegisterApi = function(gridApi){
+        //set gridApi on scope
+        $scope.gridApi = gridApi;
+    };
 
     /*
     * Defines the controller used by the dialog to edit parameters
@@ -219,6 +224,42 @@ function SearchController($scope, $mdDialog, $http)
         Init();
     }
 
+    function TagDialogCtl($scope, $mdDialog) {
+
+        function Init()
+        {
+            $scope.tag = {
+                keywords: "",
+                description: ""
+            };
+        }
+
+        //Function used to hide the dialog
+        $scope.hide = function()
+        {
+            $mdDialog.hide();
+        };
+
+        //Function used to cancel the dialog
+        $scope.cancel = function()
+        {
+            $mdDialog.cancel();
+        };
+
+        Init();
+    }
+
+    $scope.openTagDialog = function (ev) {
+        $mdDialog.show({
+            controller: TagDialogCtl,
+            //locals: {p: $scope.searchParams},
+            templateUrl: 'views/dialogs/insert_tag_dialog.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        })
+    };
+
     $scope.gridRowClick = function (ev, row) {
         $mdDialog.show(
             $mdDialog.alert()
@@ -233,8 +274,7 @@ function SearchController($scope, $mdDialog, $http)
         console.log(row.entity.body);
     };
     //Opens up the Parameters Dialog
-    $scope.openParametersDialog = function(ev)
-    {
+    $scope.openParametersDialog = function(ev) {
         $mdDialog.show({
             controller: ParametersDialogCtl,
             locals: {p: $scope.searchParams},
