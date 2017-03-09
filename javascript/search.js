@@ -35,7 +35,7 @@ function SearchController($scope, $mdDialog, $http)
                     type: ""
                 }
             ],
-            edited: "yes",
+            edited: "",
             archived: "",
             distinguished: "",
             score_hidden: ""
@@ -121,6 +121,11 @@ function SearchController($scope, $mdDialog, $http)
                     displayName: "ID",
                     name: "id",
                     width: "100"
+                },
+                {
+                    displayName: "Subreddit",
+                    name: "subreddit",
+                    width: "140"
                 },
                 {
                     displayName: "Author",

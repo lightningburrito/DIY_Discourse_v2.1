@@ -1,6 +1,5 @@
 <?php
 require_once "database_connections.php";
-//ini_set('display_errors', '1');
 function search()
 {
     //do search magic
@@ -62,22 +61,20 @@ function search()
     $authorFlairClass = $data->special_data->author_flair_class;
 
     //$score = 5;
-    //$author = 'GallowBoob';
-    //$keyword = 'science';
 
-
-    foreach ($data->main_data->string_params as $param)
+	$keyword = $data->main_data->string_params[0]->keyword;
+    /*foreach ($data->main_data->string_params as $param)
     {
         $not = $param->not;
         $keyword = $param->keyword;
         $type = $param->type;
-    }
-    foreach ($data->main_data->num_params as $param)
+    }*/
+/*    foreach ($data->main_data->num_params as $param)
     {
         $operator = $param->operator;
         $number = $param->number;
         $type = $param->type;
-    }
+    }*/
 
     //checks if each field should be added to the sql select statement
     //sets a flag equal to true for binding purposes later
@@ -103,6 +100,17 @@ function search()
             $sql .= ' AND edited = :edited';
         $edited_flag = 1;
     }
+    else
+	{
+		if ($firstField == 0)
+		{
+			$sql .= " edited='true' OR edited='false'";
+			$firstField = 1;
+		}
+		else
+			$sql .= " AND edited='true' OR edited='false'";
+		$edited_flag = 0;
+	}
     if (strcmp($archived, 'yes') == 0)
     {
         if ($firstField == 0)
@@ -384,7 +392,6 @@ function search()
     $sql .= ' LIMIT :start, 20';
 
     //echo $createdUTC;
-    //echo $endRange;
     //echo $sql;
 
     //binds any parameters that have been added to the select statement
@@ -418,7 +425,10 @@ function search()
     if ($author_flag == 1)
         $stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
     if ($keyword_flag == 1) {
+        //$stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
+		$keyword = "%".$keyword."%";
         $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
+        //$stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
     }
     if($subredditID_flag == 1)
         $stmt->bindParam(':subreddit_id', $subredditID, PDO::PARAM_STR, 12);
@@ -436,7 +446,7 @@ function search()
         $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
 
-    //echo $keyword;
+
     //echo $sql;
     $stmt->execute();
     echo json_encode($stmt->fetchAll());
