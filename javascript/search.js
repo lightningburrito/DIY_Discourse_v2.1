@@ -61,6 +61,8 @@ function SearchController($scope, $mdDialog, $http)
             author_flair_class: ""
         }
     };
+
+    $scope.loading = false;
     /*
     * Runs the first search for a new query. Gets called when the Search button is pressed.
     * Sets request_number to 0 because calling this method means that you are starting a new
@@ -77,6 +79,7 @@ function SearchController($scope, $mdDialog, $http)
     */
     $scope.search = function()
     {
+        $scope.loading = true;
         $http({
             method: 'POST',
             url: '/diy_dfeist/php/search.php',
@@ -96,6 +99,7 @@ function SearchController($scope, $mdDialog, $http)
                 console.log($scope.gridOptions.data);
             }
             $scope.searchParams.request_number++;
+            $scope.loading = false;
         }, function (response) {
             console.log(response);
             $mdDialog.show(
@@ -108,6 +112,7 @@ function SearchController($scope, $mdDialog, $http)
                     .ok('Got it!')
                     .targetEvent(ev)
             );
+            $scope.loading = false;
         });
     };
 
