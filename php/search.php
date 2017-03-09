@@ -1,5 +1,6 @@
 <?php
 require_once "database_connections.php";
+//ini_set('display_errors', '1');
 function search()
 {
     //do search magic
@@ -61,6 +62,8 @@ function search()
     $authorFlairClass = $data->special_data->author_flair_class;
 
     //$score = 5;
+    //$author = 'GallowBoob';
+    //$keyword = 'science';
 
 
     foreach ($data->main_data->string_params as $param)
@@ -177,16 +180,19 @@ function search()
             $sql .= ' AND retrieved_on = :retrievedOn';
         $retrieved_on_flag = 1;
     }
+
+    //$createdUTC = '1/15/15';
     if (strlen($createdUTC) > 0)
     {
         $createdUTC = strtotime($createdUTC);
+        $endRange = strtotime("+1 day", $createdUTC);
         if ($firstField == 0)
         {
-            $sql .= ' created_utc LIKE :createdUTC';
+            $sql .= ' (created_utc BETWEEN :createdUTC AND :endRange)';
             $firstField = 1;
         }
         else
-            $sql .= ' AND created_utc LIKE :createdUTC';
+            $sql .= ' AND (created_utc BETWEEN :createdUTC AND :endRange)';
         $created_utc_flag = 1;
     }
     if (strlen($upvotes) > 0)
@@ -360,11 +366,12 @@ function search()
     {
         if ($firstField == 0)
         {
-            $sql .= ' (author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit)';
+            $sql .= ' (body LIKE :body)';
             $firstField = 1;
         }
         else
-            $sql .= ' AND (author LIKE :author OR body LIKE :body OR subreddit LIKE :subreddit)';
+            $sql .= ' AND (body LIKE :body)';
+        $keyword = '%' . $keyword . '%';
         $keyword_flag = 1;
     }
     //else
@@ -377,6 +384,7 @@ function search()
     $sql .= ' LIMIT :start, 20';
 
     //echo $createdUTC;
+    //echo $endRange;
     //echo $sql;
 
     //binds any parameters that have been added to the select statement
@@ -391,8 +399,10 @@ function search()
         $stmt->bindParam(':scoreHidden', $scoreHidden, PDO::PARAM_STR, 12);
     if ($retrieved_on_flag == 1)
         $stmt->bindParam(':retrievedOn', $retrievedOn, PDO::PARAM_INT);
-    if ($created_utc_flag == 1)
-        $stmt->bindParam(':createdUTC', $createdUTC, PDO::PARAM_INT);
+    if ($created_utc_flag == 1) {
+        $stmt->bindParam(':createdUTC', $createdUTC, PDO::PARAM_STR, 12);
+        $stmt->bindParam(':endRange', $endRange, PDO::PARAM_STR, 12);
+    }
     if ($upvotes_flag == 1)
         $stmt->bindParam(':upvotes', $upvotes, PDO::PARAM_INT);
     if ($downvotes_flag == 1)
@@ -403,10 +413,12 @@ function search()
         $stmt->bindParam(':gilded', $gilded, PDO::PARAM_INT);
     if ($controversiality_flag == 1)
         $stmt->bindParam(':controversiality', $controversiality, PDO::PARAM_INT);
+    if ($subreddit_flag == 1)
+        $stmt->bindParam(':subreddit', $subreddit, PDO::PARAM_STR, 12);
+    if ($author_flag == 1)
+        $stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
     if ($keyword_flag == 1) {
-        $stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
         $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
-        $stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
     }
     if($subredditID_flag == 1)
         $stmt->bindParam(':subreddit_id', $subredditID, PDO::PARAM_STR, 12);
@@ -424,7 +436,7 @@ function search()
         $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
 
-
+    //echo $keyword;
     //echo $sql;
     $stmt->execute();
     echo json_encode($stmt->fetchAll());
