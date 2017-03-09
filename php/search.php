@@ -426,7 +426,6 @@ function search()
         $stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
     if ($keyword_flag == 1) {
         //$stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
-		$keyword = "%".$keyword."%";
         $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
         //$stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
     }
