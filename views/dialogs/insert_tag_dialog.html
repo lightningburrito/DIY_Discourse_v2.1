@@ -9,17 +9,24 @@
     <md-dialog-content class="input-holder">
         <md-content class="md-padding" layout="row">
             <div class="searchInputs">
-                <md-input-container class="md-inline text-input-container">
+                <md-input-container class="md-inline tag-input">
                     <label>Keyword</label>
-                    <input type="text" name="subreddit" ng-model="tag.keywords" />
+                    <input type="text" name="subreddit" ng-model="new_keyword" />
                 </md-input-container>
-                <p>Make a note of other things to keep track of in the tag</p>
+
+                <md-input-container>
+                    <label>Keyword</label>
+                    <md-select ng-model="keyword">
+                        <md-option><em>None</em></md-option>
+                        <md-option ng-repeat="keyword in keywords" ng-value="keyword.id">{{keyword.name}}</md-option>
+                    </md-select>
+                </md-input-container>
             </div>
         </md-content>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-        <md-button class="md-primary">
+        <md-button ng-click="insertTag($event)" class="md-primary">
             Insert
         </md-button>
         <md-button ng-click="cancel()">

@@ -86,21 +86,19 @@ function SearchController($scope, $mdDialog, $http)
             data: JSON.stringify($scope.searchParams),
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
-            console.log(response);
             if($scope.searchParams.request_number==0)
             {
                 //If the request number is 0, then assign the data to the ui-grid data variable
                 $scope.gridOptions.data = response.data;
-                console.log($scope.gridOptions.data);
             }
             else{
                 //If the request number is not 0, concatenate the response data to the ui-grid data variable
                 $scope.gridOptions.data = $scope.gridOptions.data.concat(response.data);
-                console.log($scope.gridOptions.data);
             }
             $scope.searchParams.request_number++;
             $scope.loading = false;
         }, function (response) {
+
             console.log(response);
             $mdDialog.show(
                 $mdDialog.alert()
@@ -162,7 +160,7 @@ function SearchController($scope, $mdDialog, $http)
             selectionRowHeaderWidth: 35,
             enableGridMenu: true,
             exporterCsvFilename: 'data.txt',
-            exporterSuppressColumns: ["id", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
+            exporterSuppressColumns: ["id", "subreddit", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [],
             rowTemplate: '<div ng-click="grid.appScope.gridRowClick($event, row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
@@ -184,7 +182,7 @@ function SearchController($scope, $mdDialog, $http)
             $scope.params = p;
             console.log($scope.params);
         }
-        //Adds a limiter object to the num_params array
+       /* //Adds a limiter object to the num_params array
         $scope.addLimit = function()
         {
             $scope.params.main_data.num_params.push(
@@ -201,7 +199,7 @@ function SearchController($scope, $mdDialog, $http)
         {
             $scope.params.main_data.num_params.pop();
             console.log($scope.params.main_data.num_params);
-        };
+        };*/
         //Removes a keyword object from the string_params array
         $scope.removeKeyword = function()
         {
@@ -236,15 +234,104 @@ function SearchController($scope, $mdDialog, $http)
         Init();
     }
 
-    function TagDialogCtl($scope, $mdDialog) {
+    function TagDialogCtl($scope, selectedComments, $mdDialog) {
 
         function Init()
         {
-            $scope.tag = {
-                keywords: "",
-                description: ""
-            };
+            $scope.keyword = "";
+            $scope.new_keyword = "";
+            $scope.keywords = [
+                {
+                    id: 1,
+                    name: "space"
+                },
+                {
+                    id: 2,
+                    name: "earth"
+                }
+            ];
+            console.log(selectedComments);
         }
+
+        $scope.getPrevKeywords = function () {
+            $http({
+                method: 'POST',
+                url: '/diy_dfeist/php/get_keywords.php',
+                data: JSON.stringify({
+                    keyword: $scope.keyword,
+                    new_keyword: $scope.new_keyword,
+                    selectedComments: selectedComments
+                }),
+                headers: {'Content-Type': 'application/json'}
+            }).then(function(response) {
+                console.log(response);
+
+            }, function (response) {
+
+                console.log(response);
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Keyword Retrieval Failed')
+                        .textContent('Keyword Retrieval Failed')
+                        .ariaLabel("Ya done messed up A. Aron. Try again!")
+                        .ok('Got it!')
+                        .targetEvent(ev)
+                );
+                $scope.loading = false;
+            });
+        };
+
+        $scope.insertTag = function (ev) {
+            /*$mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Inserting Tag Success')
+                    .textContent("THE COLE TRAIN RUNS ON WHOLE GRAIN!")
+                    .ariaLabel("WHOOOOOO!")
+                    .ok('Got it!')
+                    .targetEvent(ev)
+            );*/
+            $http({
+                method: 'POST',
+                url: '/diy_dfeist/php/insert_tag.php',
+                data: JSON.stringify({
+                    keyword: $scope.keyword,
+                    new_keyword: $scope.new_keyword,
+                    selectedComments: selectedComments
+
+                }),
+                headers: {'Content-Type': 'application/json'}
+            }).then(function(response) {
+                console.log(response);
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Inserting Tag Success')
+                        .textContent(row.entity.body)
+                        .ariaLabel("WHOOOOOO! THE COLE TRAIN RUNS ON WHOLE GRAIN!")
+                        .ok('Got it!')
+                        .targetEvent(ev)
+                );
+            }, function (response) {
+
+                console.log(response);
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Inserting Tag Failed')
+                        .textContent(row.entity.body)
+                        .ariaLabel("Ya done messed up A. Aron. Try again!")
+                        .ok('Got it!')
+                        .targetEvent(ev)
+                );
+                $scope.loading = false;
+            });
+        };
 
         //Function used to hide the dialog
         $scope.hide = function()
@@ -262,14 +349,15 @@ function SearchController($scope, $mdDialog, $http)
     }
 
     $scope.openTagDialog = function (ev) {
+        $scope.currentSelection = $scope.gridApi.selection.getSelectedRows();
         $mdDialog.show({
             controller: TagDialogCtl,
-            //locals: {p: $scope.searchParams},
+            locals: {selectedComments: $scope.currentSelection},
             templateUrl: 'views/dialogs/insert_tag_dialog.html',
             parent: angular.element(document.body),
             targetEvent: ev,
             clickOutsideToClose: true
-        })
+        });
     };
 
     $scope.gridRowClick = function (ev, row) {
@@ -283,7 +371,6 @@ function SearchController($scope, $mdDialog, $http)
                 .ok('Got it!')
                 .targetEvent(ev)
         );
-        console.log(row.entity.body);
     };
     //Opens up the Parameters Dialog
     $scope.openParametersDialog = function(ev) {

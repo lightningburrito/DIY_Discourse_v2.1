@@ -54,6 +54,10 @@ md-datepicker
     width: 1000px;
     height: 600px;
 }
+.tag-input
+{
+    width: 250px;
+}
 .insert-tag-dialog
 {
     width: 1000px;
