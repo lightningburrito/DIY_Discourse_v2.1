@@ -238,9 +238,9 @@ function SearchController($scope, $mdDialog, $http)
 
         function Init()
         {
-            $scope.keyword = "";
-            $scope.new_keyword = "";
-            $scope.keywords = [
+            $scope.tag = "";
+            $scope.new_tag_name = "";
+            $scope.tags = [
                 {
                     id: 1,
                     name: "space"
@@ -253,15 +253,10 @@ function SearchController($scope, $mdDialog, $http)
             console.log(selectedComments);
         }
 
-        $scope.getPrevKeywords = function () {
+        $scope.getPrevTags = function () {
             $http({
                 method: 'POST',
                 url: '/diy_dfeist/php/get_tags.php',
-                data: JSON.stringify({
-                    keyword: $scope.keyword,
-                    new_keyword: $scope.new_keyword,
-                    selectedComments: selectedComments
-                }),
                 headers: {'Content-Type': 'application/json'}
             }).then(function(response) {
                 console.log(response);
@@ -298,8 +293,8 @@ function SearchController($scope, $mdDialog, $http)
                 method: 'POST',
                 url: '/diy_dfeist/php/insert_tag.php',
                 data: JSON.stringify({
-                    keyword: $scope.keyword,
-                    new_keyword: $scope.new_keyword,
+                    id_tag: $scope.tag.id,
+                    new_tag_name: $scope.new_tag_name,
                     selectedComments: selectedComments
 
                 }),

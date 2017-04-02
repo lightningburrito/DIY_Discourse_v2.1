@@ -7,9 +7,9 @@
     <span layout="row">
         <md-input-container>
             <label>Keyword</label>
-            <md-select ng-model="keyword">
+            <md-select ng-model="tag">
                 <md-option><em>None</em></md-option>
-                <md-option ng-repeat="k in keywords" ng-value="k.id">{{keyword.name}}</md-option>
+                <md-option ng-repeat="t in tags" ng-value="k.id">{{t.name}}</md-option>
             </md-select>
         </md-input-container>
         <span ng-show="loading"><b>LOADING...</b></span>

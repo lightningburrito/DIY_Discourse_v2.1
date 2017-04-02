@@ -7,7 +7,8 @@ function TagController($scope, $http)
 {
     function Init()
     {
-        $scope.keywords = [
+        $scope.tag = null;
+        $scope.tags = [
             {
                 id: 1,
                 name: "space"
