@@ -279,16 +279,7 @@ function SearchController($scope, $mdDialog, $http)
         };
 
         $scope.insertTag = function (ev) {
-            /*$mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Inserting Tag Success')
-                    .textContent("THE COLE TRAIN RUNS ON WHOLE GRAIN!")
-                    .ariaLabel("WHOOOOOO!")
-                    .ok('Got it!')
-                    .targetEvent(ev)
-            );*/
+
             $http({
                 method: 'POST',
                 url: '/diy_dfeist/php/insert_tag.php',
