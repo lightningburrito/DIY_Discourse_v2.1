@@ -256,7 +256,7 @@ function SearchController($scope, $mdDialog, $http)
         $scope.getPrevKeywords = function () {
             $http({
                 method: 'POST',
-                url: '/diy_dfeist/php/get_keywords.php',
+                url: '/diy_dfeist/php/get_tags.php',
                 data: JSON.stringify({
                     keyword: $scope.keyword,
                     new_keyword: $scope.new_keyword,
