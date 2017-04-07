@@ -2,7 +2,7 @@
 
 require_once "database_connections.php";
 
-function get_tags()
+function get_tags_comments()
 {
 	$conn = connect();
 	//how the connection is really made
@@ -12,7 +12,10 @@ function get_tags()
 	}
 	$data = json_decode(file_get_contents('php://input'));
 
-	//returns all the tags from the tags table
+	$tag = $data->tag;
+
+	//joins the cinfo_tags and cinfo tables and gets all the comments where the id_tag is the id of the
+	//tag->id
 }
 
-get_tags();
+get_tags_comments();
