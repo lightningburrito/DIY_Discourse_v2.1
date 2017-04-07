@@ -1,0 +1,5 @@
+https://www.reddit.com//comments/<link id>//<post id>
+post_id is stored under name in the database
+Strip the t1_ and t3_ from the beginning of each id
+Example:
+https://www.reddit.com//comments/2qxrkx//cnasaft
