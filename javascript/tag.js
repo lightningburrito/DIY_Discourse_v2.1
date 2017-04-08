@@ -8,7 +8,6 @@ function TagController($scope, $http)
     function Init()
     {
         $scope.selected_tag = null;
-        $scope.new_tag_name = "";
         $scope.tag = null;
         $scope.tags = [];
         $scope.getPrevTags();
@@ -81,6 +80,31 @@ function TagController($scope, $http)
                     .clickOutsideToClose(true)
                     .title('Keyword Retrieval Failed')
                     .textContent('Keyword Retrieval Failed')
+                    .ariaLabel("Ya done messed up A. Aron. Try again!")
+                    .ok('Got it!')
+                    .targetEvent(ev)
+            );
+            $scope.loading = false;
+        });
+    };
+    $scope.getTaggedComments = function () {
+        console.log($scope.selected_tag);
+        $http({
+            method: 'POST',
+            url: '/diy_dfeist/php/get_tags_comments.php',
+            data: JSON.stringify($scope.selected_tag),
+            headers: {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            console.log(response);
+            $scope.gridOptions.data = response.data;
+        }, function (response) {
+            console.log(response);
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Comment Retrieval Failed')
+                    .textContent('Comment Retrieval Failed')
                     .ariaLabel("Ya done messed up A. Aron. Try again!")
                     .ok('Got it!')
                     .targetEvent(ev)

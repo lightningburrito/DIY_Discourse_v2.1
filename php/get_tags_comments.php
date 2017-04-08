@@ -14,8 +14,8 @@ function get_tags_comments()
 	$tag = $data->tag;
 
     //join cinfo and cinfo_tags
-    $joinStmt = $conn->prepare("SELECT * FROM cinfo INNER JOIN cinfo_tags ON cinfo_tags.id_cinfo = cinfo.id WHERE cinfo_tags.id_tags= :id");
-    $joinStmt->bindParam(':id', $tag->id);
+    $joinStmt = $conn->prepare("SELECT cinfo.* FROM cinfo INNER JOIN cinfo_tags ON cinfo_tags.id_cinfo = cinfo.id WHERE cinfo_tags.id_tags=:tagId");
+    $joinStmt->bindParam(':tagId', $tag->id);
     $joinStmt->execute();
 
     echo json_encode($joinStmt->fetchAll());
