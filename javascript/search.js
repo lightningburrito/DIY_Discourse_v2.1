@@ -198,24 +198,6 @@ function SearchController($scope, $mdDialog, $http, $filter)
             $scope.params = p;
             console.log($scope.params);
         }
-       /* //Adds a limiter object to the num_params array
-        $scope.addLimit = function()
-        {
-            $scope.params.main_data.num_params.push(
-                {
-                    operator: ">",
-                    number: "",
-                    type: ""
-                }
-            );
-            console.log($scope.params.main_data.num_params);
-        };
-        //Removes a limiter object from the num_params array
-        $scope.removeLimit = function()
-        {
-            $scope.params.main_data.num_params.pop();
-            console.log($scope.params.main_data.num_params);
-        };*/
         //Removes a keyword object from the string_params array
         $scope.removeKeyword = function()
         {
@@ -285,20 +267,28 @@ function SearchController($scope, $mdDialog, $http, $filter)
         };
 
         $scope.insertTag = function (ev) {
-            console.log($scope.selected_tag);
-            console.log($scope.new_tag_name);
-            /*$http({
+            var temp = {};
+            if($scope.new_tag_name)
+            {
+                temp.id = 0;
+                temp.name = $scope.new_tag_name;
+            }
+            else if($scope.selected_tag)
+            {
+                temp.id = $scope.selected_tag.id;
+                temp.name = $scope.selected_tag.name;
+            }
+            $scope.hide();
+            $http({
                 method: 'POST',
                 url: '/diy_dfeist/php/insert_tag.php',
                 data: JSON.stringify({
-                    id_tag: $scope.tag.id,
-                    new_tag_name: $scope.new_tag_name,
-                    selectedComments: selectedComments
-
+                    tag: temp,
+                    comments: selectedComments
                 }),
                 headers: {'Content-Type': 'application/json'}
             }).then(function(response) {
-                console.log(response);
+                $scope.tags = response.data;
                 $mdDialog.show(
                     $mdDialog.alert()
                         .parent(angular.element(document.querySelector('#popupContainer')))
@@ -323,7 +313,7 @@ function SearchController($scope, $mdDialog, $http, $filter)
                         .targetEvent(ev)
                 );
                 $scope.loading = false;
-            });*/
+            });
         };
 
         //Function used to hide the dialog
