@@ -5,11 +5,15 @@
         </md-card-title-text>
     </md-card-title>
     <span layout="row">
+        <md-input-container class="md-inline tag-input">
+                    <label>Name</label>
+                    <input type="text" ng-model="new_tag_name" />
+                </md-input-container>
         <md-input-container>
             <label>Keyword</label>
-            <md-select ng-model="tag">
+            <md-select ng-model="selected_tag">
                 <md-option><em>None</em></md-option>
-                <md-option ng-repeat="t in tags" ng-value="k.id">{{t.name}}</md-option>
+                <md-option ng-repeat="t in tags" ng-value="t">{{t.name}}</md-option>
             </md-select>
         </md-input-container>
         <span ng-show="loading"><b>LOADING...</b></span>

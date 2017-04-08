@@ -11,14 +11,14 @@
             <div class="searchInputs">
                 <md-input-container class="md-inline tag-input">
                     <label>Name</label>
-                    <input type="text" name="subreddit" ng-model="new_tag_name" />
+                    <input type="text" ng-model="new_tag_name" />
                 </md-input-container>
 
                 <md-input-container>
                     <label>Keyword</label>
-                    <md-select ng-model="tag">
+                    <md-select ng-model="selected_tag">
                         <md-option><em>None</em></md-option>
-                        <md-option ng-repeat="t in tags" ng-value="t.id">{{tag.name}}</md-option>
+                        <md-option ng-repeat="t in tags track by t.id" ng-value="t">{{t.name}}</md-option>
                     </md-select>
                 </md-input-container>
             </div>

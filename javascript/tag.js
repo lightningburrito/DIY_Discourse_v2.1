@@ -7,17 +7,11 @@ function TagController($scope, $http)
 {
     function Init()
     {
+        $scope.selected_tag = null;
+        $scope.new_tag_name = "";
         $scope.tag = null;
-        $scope.tags = [
-            {
-                id: 1,
-                name: "space"
-            },
-            {
-                id: 2,
-                name: "earth"
-            }
-        ];
+        $scope.tags = [];
+        $scope.getPrevTags();
     }
 
     $scope.gridOptions =
@@ -71,6 +65,36 @@ function TagController($scope, $http)
         //set gridApi on scope
         $scope.gridApi = gridApi;
     };
+    $scope.getPrevTags = function () {
+        $http({
+            method: 'POST',
+            url: '/diy_dfeist/php/get_tags.php',
+            headers: {'Content-Type': 'application/json'}
+        }).then(function(response) {
+            console.log(response);
+            $scope.tags = response.data;
+        }, function (response) {
+            console.log(response);
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Keyword Retrieval Failed')
+                    .textContent('Keyword Retrieval Failed')
+                    .ariaLabel("Ya done messed up A. Aron. Try again!")
+                    .ok('Got it!')
+                    .targetEvent(ev)
+            );
+            $scope.loading = false;
+        });
+    };
 
     Init();
+
+    $scope.$watch("selected_tag", function () {
+        $scope.new_tag_name = "";
+    });
+    $scope.$watch("new_tag_name", function () {
+        $scope.selected_tag = null;
+    });
 }

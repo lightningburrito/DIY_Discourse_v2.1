@@ -12,7 +12,7 @@ function get_tags()
 	}
 
 	//returns all the tags from the tags table
-    $stmt = $conn->prepare("SELECT name FROM tags");
+    $stmt = $conn->prepare("SELECT * FROM tags");
     $stmt->execute();
 
     echo json_encode($stmt->fetchAll());

@@ -12,7 +12,6 @@ app.controller("SearchController", ["$scope", "$mdDialog", "$http", SearchContro
 app.filter("LinkFilter", function () {
     return function(comment)
     {
-        //https://www.reddit.com//comments/{{row.entity.id}}//{{(row.entity.name | PostId)}}
         return "https://www.reddit.com//comments/"+comment.link_id.replace(/t3_/, "") + "//" + name.replace(/t1_/, "");
     }
 });
@@ -254,19 +253,10 @@ function SearchController($scope, $mdDialog, $http, $filter)
 
         function Init()
         {
-            $scope.tag = "";
+            $scope.selected_tag = null;
             $scope.new_tag_name = "";
-            $scope.tags = [
-                {
-                    id: 1,
-                    name: "space"
-                },
-                {
-                    id: 2,
-                    name: "earth"
-                }
-            ];
-            console.log(selectedComments);
+            $scope.tags = [];
+            $scope.getPrevTags();
         }
 
         $scope.getPrevTags = function () {
@@ -276,9 +266,8 @@ function SearchController($scope, $mdDialog, $http, $filter)
                 headers: {'Content-Type': 'application/json'}
             }).then(function(response) {
                 console.log(response);
-
+                $scope.tags = response.data;
             }, function (response) {
-
                 console.log(response);
                 $mdDialog.show(
                     $mdDialog.alert()
@@ -295,8 +284,9 @@ function SearchController($scope, $mdDialog, $http, $filter)
         };
 
         $scope.insertTag = function (ev) {
-
-            $http({
+            console.log($scope.selected_tag);
+            console.log($scope.new_tag_name);
+            /*$http({
                 method: 'POST',
                 url: '/diy_dfeist/php/insert_tag.php',
                 data: JSON.stringify({
@@ -332,7 +322,7 @@ function SearchController($scope, $mdDialog, $http, $filter)
                         .targetEvent(ev)
                 );
                 $scope.loading = false;
-            });
+            });*/
         };
 
         //Function used to hide the dialog
@@ -346,8 +336,16 @@ function SearchController($scope, $mdDialog, $http, $filter)
         {
             $mdDialog.cancel();
         };
+        /*$scope.selected_tag = null;
+         $scope.new_tag_name = "";*/
 
         Init();
+        $scope.$watch("selected_tag", function () {
+            $scope.new_tag_name = "";
+        });
+        $scope.$watch("new_tag_name", function () {
+            $scope.selected_tag = null;
+        });
     }
 
     $scope.openTagDialog = function (ev) {
