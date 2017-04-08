@@ -1,9 +1,9 @@
 
 var app = angular.module("discourse");
 
-app.controller("TagController", ["$scope", "$http", TagController]);
+app.controller("TagController", ["$scope", "$mdDialog", "$http", TagController]);
 
-function TagController($scope, $http)
+function TagController($scope, $mdDialog, $http)
 {
     function Init()
     {
@@ -19,6 +19,14 @@ function TagController($scope, $http)
                 {
                     displayName: "ID",
                     name: "id",
+                    width: "100"
+                },
+                {
+                    displayName: "Link",
+                    name: "link",
+                    cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP">' +
+                    '<a target="_blank" href="{{row.entity | LinkFilter}}">Link</a>' +
+                    '</div>',
                     width: "100"
                 },
                 {
@@ -48,7 +56,8 @@ function TagController($scope, $http)
                 },
                 {
                     displayName: "Body",
-                    name: "body"
+                    name: "body",
+                    cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP" ng-click="grid.appScope.gridRowClick($event, row)">{{row.entity.body}}</div>'
                 }
             ],
             enableRowSelection: true,
@@ -58,7 +67,7 @@ function TagController($scope, $http)
             exporterCsvFilename: 'data.txt',
             exporterSuppressColumns: ["id", "subreddit", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [],
-            rowTemplate: '<div ng-click="grid.appScope.gridRowClick($event, row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
+            rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
     $scope.gridOptions.onRegisterApi = function(gridApi){
         //set gridApi on scope
@@ -70,7 +79,6 @@ function TagController($scope, $http)
             url: '/diy_dfeist/php/get_tags.php',
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
-            console.log(response);
             $scope.tags = response.data;
         }, function (response) {
             console.log(response);
@@ -92,7 +100,7 @@ function TagController($scope, $http)
         $http({
             method: 'POST',
             url: '/diy_dfeist/php/get_tags_comments.php',
-            data: JSON.stringify($scope.selected_tag),
+            data: JSON.stringify({tag: $scope.selected_tag}),
             headers: {'Content-Type': 'application/json'}
         }).then(function(response) {
             console.log(response);
@@ -114,6 +122,19 @@ function TagController($scope, $http)
     };
 
     Init();
+
+    $scope.gridRowClick = function (ev, row) {
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title('Comment Body')
+                .textContent(row.entity.body)
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
 
     $scope.$watch("selected_tag", function () {
         $scope.new_tag_name = "";

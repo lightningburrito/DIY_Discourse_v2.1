@@ -12,10 +12,9 @@ function get_tags_comments()
 	}
 	$data = json_decode(file_get_contents('php://input'));
 	$tag = $data->tag;
-
     //join cinfo and cinfo_tags
-    $joinStmt = $conn->prepare("SELECT cinfo.* FROM cinfo INNER JOIN cinfo_tags ON cinfo_tags.id_cinfo = cinfo.id WHERE cinfo_tags.id_tags=:tagId");
-    $joinStmt->bindParam(':tagId', $tag->id);
+    $joinStmt = $conn->prepare("SELECT cinfo.* FROM cinfo JOIN cinfo_tags ON cinfo.id=cinfo_tags.id_cinfo WHERE cinfo_tags.id_tags=:tagId LIMIT 2");
+    $joinStmt->bindParam(':tagId', intval($tag->id));
     $joinStmt->execute();
 
     echo json_encode($joinStmt->fetchAll());
