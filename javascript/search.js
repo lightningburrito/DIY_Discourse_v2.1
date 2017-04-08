@@ -9,11 +9,18 @@ var app = angular.module("discourse");
 */
 app.controller("SearchController", ["$scope", "$mdDialog", "$http", SearchController]);
 
+app.filter("LinkFilter", function () {
+    return function(comment)
+    {
+        //https://www.reddit.com//comments/{{row.entity.id}}//{{(row.entity.name | PostId)}}
+        return "https://www.reddit.com//comments/"+comment.link_id.replace(/t3_/, "") + "//" + name.replace(/t1_/, "");
+    }
+});
 /*
 * Function that gets attached to the SearchController. Takes in the $scope and $http angular variables,
 * as well as the $mdDialog material design variable for making dialog boxes
 */
-function SearchController($scope, $mdDialog, $http)
+function SearchController($scope, $mdDialog, $http, $filter)
 {
     //Defining the search parameters object that will be used to make the query client side
     $scope.searchParams = {
@@ -90,6 +97,7 @@ function SearchController($scope, $mdDialog, $http)
             {
                 //If the request number is 0, then assign the data to the ui-grid data variable
                 $scope.gridOptions.data = response.data;
+                console.log(response);
             }
             else{
                 //If the request number is not 0, concatenate the response data to the ui-grid data variable
@@ -123,6 +131,14 @@ function SearchController($scope, $mdDialog, $http)
                 {
                     displayName: "ID",
                     name: "id",
+                    width: "100"
+                },
+                {
+                    displayName: "Link",
+                    name: "link",
+                    cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP">' +
+                    '<a target="_blank" href="{{row.entity | LinkFilter}}">Link</a>' +
+                    '</div>',
                     width: "100"
                 },
                 {
