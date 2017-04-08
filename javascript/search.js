@@ -167,7 +167,8 @@ function SearchController($scope, $mdDialog, $http, $filter)
                 },
                 {
                     displayName: "Body",
-                    name: "body"
+                    name: "body",
+                    cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP" ng-click="grid.appScope.gridRowClick($event, row)">{{row.entity.body}}</div>'
                 }
             ],
             enableRowSelection: true,
@@ -177,7 +178,7 @@ function SearchController($scope, $mdDialog, $http, $filter)
             exporterCsvFilename: 'data.txt',
             exporterSuppressColumns: ["id", "subreddit", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [],
-            rowTemplate: '<div ng-click="grid.appScope.gridRowClick($event, row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
+            rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
     $scope.gridOptions.onRegisterApi = function(gridApi){
         //set gridApi on scope
