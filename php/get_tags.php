@@ -10,9 +10,12 @@ function get_tags()
 		echo "conn failed";
 		return 0;
 	}
-	$data = json_decode(file_get_contents('php://input'));
 
 	//returns all the tags from the tags table
+    $stmt = $conn->prepare("SELECT name FROM tags");
+    $stmt->execute();
+
+    echo json_encode($stmt->fetchAll());
 }
 
 get_tags();
