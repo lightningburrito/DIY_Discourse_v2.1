@@ -65,7 +65,7 @@ function TagController($scope, $mdDialog, $http)
             selectionRowHeaderWidth: 35,
             enableGridMenu: true,
             exporterCsvFilename: 'data.txt',
-            exporterSuppressColumns: ["id", "subreddit", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
+            exporterSuppressColumns: ["id", "subreddit", "link", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [],
             rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
@@ -92,11 +92,11 @@ function TagController($scope, $mdDialog, $http)
                     .ok('Got it!')
                     .targetEvent(ev)
             );
-            $scope.loading = false;
         });
     };
     $scope.getTaggedComments = function () {
         console.log($scope.selected_tag);
+        $scope.loading = true;
         $http({
             method: 'POST',
             url: '/diy_dfeist/php/get_tags_comments.php',
@@ -105,6 +105,7 @@ function TagController($scope, $mdDialog, $http)
         }).then(function(response) {
             console.log(response);
             $scope.gridOptions.data = response.data;
+            $scope.loading = false;
         }, function (response) {
             console.log(response);
             $mdDialog.show(
@@ -117,7 +118,6 @@ function TagController($scope, $mdDialog, $http)
                     .ok('Got it!')
                     .targetEvent(ev)
             );
-            $scope.loading = false;
         });
     };
 

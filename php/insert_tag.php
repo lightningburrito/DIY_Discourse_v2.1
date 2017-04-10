@@ -34,10 +34,17 @@ function insert()
     }
 	foreach ($commentsArray as $comment)
 	{
-		$cinfoTagsStmt = $conn->prepare("INSERT INTO cinfo_tags (id_cinfo, id_tags) VALUES (:id_cinfo, :id_tags)");
-		$cinfoTagsStmt->bindParam(':id_cinfo', $comment->id);
-		$cinfoTagsStmt->bindParam(':id_tags', $id_tag);
-		$cinfoTagsStmt->execute();
+		$stmt = $conn->prepare("SELECT * FROM cinfo_tags WHERE id_cinfo = :id_cinfo AND id_tags = :id_tags");
+		$stmt->bindParam(':id_cinfo', $comment->id);
+		$stmt->bindParam(':id_tags', $id_tag);
+		$stmt->execute();
+		if($stmt->rowCount()<=0)
+		{
+			$cinfoTagsStmt = $conn->prepare("INSERT INTO cinfo_tags (id_cinfo, id_tags) VALUES (:id_cinfo, :id_tags)");
+			$cinfoTagsStmt->bindParam(':id_cinfo', $comment->id);
+			$cinfoTagsStmt->bindParam(':id_tags', $id_tag);
+			$cinfoTagsStmt->execute();
+		}
 	}
 	$stmt = $conn->prepare("SELECT * FROM tags");
 	$stmt->execute();

@@ -67,6 +67,11 @@ md-datepicker
 {
     height: 480px;
 }
+.tag-dropdown
+{
+    margin-left: 42px;
+    display: inline;
+}
 md-card
 {
     width: 90%;
@@ -78,6 +83,14 @@ md-card
 md-checkbox
 {
     margin: 5px;
+}
+.loading
+{
+    margin-left: 80%;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
 }
 footer
 {

@@ -176,7 +176,7 @@ function SearchController($scope, $mdDialog, $http, $filter)
             selectionRowHeaderWidth: 35,
             enableGridMenu: true,
             exporterCsvFilename: 'data.txt',
-            exporterSuppressColumns: ["id", "subreddit", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
+            exporterSuppressColumns: ["id", "subreddit", "link", "author", "ups", "downs", "score"], //sets it so the comment body is the only data exported
             data: [],
             rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>'
         };
