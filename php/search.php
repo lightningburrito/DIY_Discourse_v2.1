@@ -451,7 +451,8 @@ function search()
         $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
     $stmt->bindParam(':start', $start, PDO::PARAM_INT);
 
-
+	echo $sql;
+	exit();
     //echo $sql;
     $stmt->execute();
     echo json_encode($stmt->fetchAll());
