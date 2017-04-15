@@ -77,14 +77,14 @@ function SearchController($scope, $mdDialog, $http, $filter)
     */
     $scope.firstSearch = function () {
         $scope.searchParams.request_number = 0;
-        $scope.search();
+        $scope.search($scope.searchCallback);
     };
 
     /*
     * Sends the http request to make the search
     *
     */
-    $scope.search = function()
+    $scope.search = function(Callback)
     {
         $scope.loading = true;
         $http({
@@ -92,40 +92,51 @@ function SearchController($scope, $mdDialog, $http, $filter)
             url: '/diy_dfeist/php/search.php',
             data: JSON.stringify($scope.searchParams),
             headers: {'Content-Type': 'application/json'}
-        }).then(function(response) {
-            if($scope.searchParams.request_number==0)
-            {
-                //If the request number is 0, then assign the data to the ui-grid data variable
-                $scope.gridOptions.data = response.data;
-                console.log(response);
-            }
-            else{
-                //If the request number is not 0, concatenate the response data to the ui-grid data variable
-                $scope.gridOptions.data = $scope.gridOptions.data.concat(response.data);
-            }
-            $scope.searchParams.request_number++;
-            $scope.loading = false;
-            $scope.searchParams.get_all = false;
-        }, function (response) {
-
-            console.log(response);
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Search Failed')
-                    .textContent(row.entity.body)
-                    .ariaLabel("Ya done messed up A. Aron. Try again!")
-                    .ok('Got it!')
-                    .targetEvent(ev)
-            );
-            $scope.loading = false;
-        });
+        }).then(Callback);
+    };
+    $scope.searchCallback = function (response) {
+        if($scope.searchParams.request_number==0)
+        {
+            //If the request number is 0, then assign the data to the ui-grid data variable
+            $scope.gridOptions.data = response.data.msg;
+        }
+        else{
+            //If the request number is not 0, concatenate the response data to the ui-grid data variable
+            $scope.gridOptions.data = $scope.gridOptions.data.concat(response.data.msg);
+        }
+        $scope.searchParams.request_number++;
+        $scope.loading = false;
+        $scope.searchParams.get_all = false;
     };
 
+    function getAllCallback(response) {
+        if ($scope.searchParams.request_number == 0) {
+            //If the request number is 0, then assign the data to the ui-grid data variable
+            $scope.gridOptions.data = response.data.msg;
+            console.log($scope.searchParams.request_number);
+        }
+        else {
+            //If the request number is not 0, concatenate the response data to the ui-grid data variable
+            $scope.gridOptions.data = $scope.gridOptions.data.concat(response.data.msg);
+            console.log($scope.searchParams.request_number);
+        }
+        $scope.searchParams.request_number++;
+        if(response.data.effected == 10000)
+        {
+            $scope.search(getAllCallback);
+        }
+        else
+        {
+            $scope.loading = false;
+            $scope.searchParams.get_all = false;
+        }
+    }
     $scope.getAll = function () {
+        $scope.gridOptions.data = [];
         $scope.searchParams.get_all = true;
-        $scope.search();
+        $scope.searchParams.request_number = 0;
+        $scope.loading = true;
+        $scope.search(getAllCallback);
     };
 
     /*

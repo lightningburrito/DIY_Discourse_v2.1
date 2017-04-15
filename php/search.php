@@ -387,13 +387,15 @@ function search()
         //echo "No keyword was received";
     //}
 
-	$start = intval($data->request_number) * 20;
-	if($data->get_all==true)
+	$start = 0;
+    if($data->get_all===true)
 	{
-		$sql .= ' LIMIT :start, 2000000000000';//2 trillion
+		$start = intval($data->request_number) * 10000;
+		$sql .= ' LIMIT :start, 10000';//53851542
 	}
-	else
+	if($data->get_all===false)
 	{
+		$start = intval($data->request_number) * 20;
 		$sql .= ' LIMIT :start, 20';
 	}
 
@@ -449,12 +451,15 @@ function search()
         $stmt->bindParam(':author_flair_class', $authorFlairClass, PDO::PARAM_STR, 12);
     if($commentID_flag == 1)
         $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
-    $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+	$stmt->bindParam(':start', $start, PDO::PARAM_INT);
 
-	echo $sql;
-	exit();
+	/*echo $sql;
+	exit();*/
     //echo $sql;
     $stmt->execute();
-    echo json_encode($stmt->fetchAll());
+    $response = new stdClass();
+    $response->effected = $stmt->rowCount();
+    $response->msg = $stmt->fetchAll();
+    echo json_encode($response);
 }
 search();

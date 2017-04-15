@@ -57,11 +57,13 @@ md-datepicker
 .tag-input
 {
     width: 250px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 .insert-tag-dialog
 {
-    width: 1000px;
-    height: 400px;
+    width: 400px;
+    height: 250px;
 }
 .input-holder
 {
@@ -95,4 +97,11 @@ md-checkbox
 footer
 {
     margin: auto;
+}
+.ui-grid-viewport {
+    overflow-anchor: none;
+}
+.dialog-tag
+{
+    padding-bottom: 4px;
 }
