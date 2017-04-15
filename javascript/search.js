@@ -24,6 +24,7 @@ function SearchController($scope, $mdDialog, $http, $filter)
     //Defining the search parameters object that will be used to make the query client side
     $scope.searchParams = {
         request_number: 0, //used server side for determining for retrieving chunks of data at a time
+        get_all: false,
         main_data: {
             //array of objects used to search for keywords
             string_params: [
@@ -104,6 +105,7 @@ function SearchController($scope, $mdDialog, $http, $filter)
             }
             $scope.searchParams.request_number++;
             $scope.loading = false;
+            $scope.searchParams.get_all = false;
         }, function (response) {
 
             console.log(response);
@@ -119,6 +121,11 @@ function SearchController($scope, $mdDialog, $http, $filter)
             );
             $scope.loading = false;
         });
+    };
+
+    $scope.getAll = function () {
+        $scope.searchParams.get_all = true;
+        $scope.search();
     };
 
     /*

@@ -14,6 +14,9 @@
 
     <br />
     <md-button class="md-raised param-button md-primary" ng-click="firstSearch()">Search</md-button>
-    <md-button class="md-raised param-button md-primary" ng-click="search()">Get More</md-button>
+    <span layout="row">
+        <md-button class="md-raised param-button md-primary" ng-click="search()">Get More</md-button>
+        <md-button class="md-raised param-button md-primary" ng-click="getAll()">Get All</md-button>
+    </span>
     <div ui-grid="gridOptions" ui-grid-selection ui-grid-exporter class="myGrid"></div>
 </md-card>

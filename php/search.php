@@ -387,9 +387,15 @@ function search()
         //echo "No keyword was received";
     //}
 
-
-    $start = intval($data->request_number) * 20;
-    $sql .= ' LIMIT :start, 20';
+	$start = intval($data->request_number) * 20;
+	if($data->get_all==true)
+	{
+		$sql .= ' LIMIT :start, 2000000000000';//2 trillion
+	}
+	else
+	{
+		$sql .= ' LIMIT :start, 20';
+	}
 
     //echo $createdUTC;
     //echo $sql;
