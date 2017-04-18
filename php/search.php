@@ -62,19 +62,7 @@ function search()
 
     //$score = 5;
 
-	$keyword = $data->main_data->string_params[0]->keyword;
-    /*foreach ($data->main_data->string_params as $param)
-    {
-        $not = $param->not;
-        $keyword = $param->keyword;
-        $type = $param->type;
-    }*/
-/*    foreach ($data->main_data->num_params as $param)
-    {
-        $operator = $param->operator;
-        $number = $param->number;
-        $type = $param->type;
-    }*/
+	//$keyword = $data->main_data->string_params[0]->keyword;
 
     //checks if each field should be added to the sql select statement
     //sets a flag equal to true for binding purposes later
@@ -370,7 +358,7 @@ function search()
     }
 
     //$keyword = "science";
-    if (strlen($keyword) > 0)
+    foreach ($data->main_data->string_params as $param)
     {
         if ($firstField == 0)
         {
@@ -379,7 +367,7 @@ function search()
         }
         else
             $sql .= ' AND (body LIKE :body)';
-        $keyword = '%' . $keyword . '%';
+
         $keyword_flag = 1;
     }
     //else
@@ -432,10 +420,14 @@ function search()
         $stmt->bindParam(':subreddit', $subreddit, PDO::PARAM_STR, 12);
     if ($author_flag == 1)
         $stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
-    if ($keyword_flag == 1) {
-        //$stmt->bindParam(':author', $keyword, PDO::PARAM_STR, 12);
-        $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
-        //$stmt->bindParam(':subreddit', $keyword, PDO::PARAM_STR, 12);
+    if ($keyword_flag == 1)
+    {
+        foreach ($data->main_data->string_params as $param)
+        {
+            $keyword = $param->keyword;
+            $keyword = '%' . $keyword . '%';
+            $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
+        }
     }
     if($subredditID_flag == 1)
         $stmt->bindParam(':subreddit_id', $subredditID, PDO::PARAM_STR, 12);
