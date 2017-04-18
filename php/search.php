@@ -358,16 +358,17 @@ function search()
     }
 
     //$keyword = "science";
+	$count = 0;
     foreach ($data->main_data->string_params as $param)
     {
         if ($firstField == 0)
         {
-            $sql .= ' (body LIKE :body)';
+            $sql .= ' (body LIKE :body'.strval($count).')';
             $firstField = 1;
         }
         else
-            $sql .= ' AND (body LIKE :body)';
-
+            $sql .= ' AND (body LIKE :body'.strval($count).')';
+		$count++;
         $keyword_flag = 1;
     }
     //else
@@ -422,11 +423,13 @@ function search()
         $stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
     if ($keyword_flag == 1)
     {
+		$count = 0;
         foreach ($data->main_data->string_params as $param)
         {
             $keyword = $param->keyword;
             $keyword = '%' . $keyword . '%';
-            $stmt->bindParam(':body', $keyword, PDO::PARAM_STR, 12);
+            $stmt->bindParam(':body'.strval($count).'', $keyword, PDO::PARAM_STR, 12);
+            $count++;
         }
     }
     if($subredditID_flag == 1)
@@ -444,10 +447,6 @@ function search()
     if($commentID_flag == 1)
         $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
 	$stmt->bindParam(':start', $start, PDO::PARAM_INT);
-
-	/*echo $sql;
-	exit();*/
-    //echo $sql;
     $stmt->execute();
     $response = new stdClass();
     $response->effected = $stmt->rowCount();
