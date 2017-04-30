@@ -3,6 +3,9 @@ var app = angular.module("discourse");
 
 app.controller("TagController", ["$scope", "$mdDialog", "$http", TagController]);
 
+/*
+* Function defines the Tag controller
+* */
 function TagController($scope, $mdDialog, $http)
 {
     function Init()
@@ -73,6 +76,9 @@ function TagController($scope, $mdDialog, $http)
         //set gridApi on scope
         $scope.gridApi = gridApi;
     };
+    /*
+    * Makes call to get previous tags created
+    * */
     $scope.getPrevTags = function () {
         $http({
             method: 'POST',
@@ -94,6 +100,9 @@ function TagController($scope, $mdDialog, $http)
             );
         });
     };
+    /*
+    * Gets all comments tagged with the selected tag
+    * */
     $scope.getTaggedComments = function () {
         console.log($scope.selected_tag);
         $scope.loading = true;
