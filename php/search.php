@@ -165,6 +165,8 @@ function search()
             $sql .= ' AND score_hidden = :scoreHidden';
         $score_hidden_flag = 1;
     }
+
+    //retrievedOn and createdUTC search not fully implemented
     if (strlen($retrievedOn) > 0)
     {
         if ($firstField == 0)
@@ -357,7 +359,8 @@ function search()
         $authorFlairClass_flag = 1;
     }
 
-    //$keyword = "science";
+    //adds keyword to the select statement
+    //count is used to account for multiple keywords in one search
 	$count = 0;
     foreach ($data->main_data->string_params as $param)
     {
@@ -371,10 +374,6 @@ function search()
 		$count++;
         $keyword_flag = 1;
     }
-    //else
-    //{
-        //echo "No keyword was received";
-    //}
 
 	$start = 0;
     if($data->get_all===true)
@@ -423,6 +422,7 @@ function search()
         $stmt->bindParam(':author', $author, PDO::PARAM_STR, 12);
     if ($keyword_flag == 1)
     {
+        //count is used to account for multiple keywords in the same search
 		$count = 0;
         foreach ($data->main_data->string_params as $param)
         {
@@ -447,6 +447,8 @@ function search()
     if($commentID_flag == 1)
         $stmt->bindParam(':comment_id', $commentID, PDO::PARAM_STR, 12);
 	$stmt->bindParam(':start', $start, PDO::PARAM_INT);
+
+
     $stmt->execute();
     $response = new stdClass();
     $response->effected = $stmt->rowCount();
